@@ -1,12 +1,17 @@
 const express = require("express");
-const mongoose = require("mongoose");
-
-var text = mongoose.connect('mongodb://localhost:27017/')
 
 const app = express();
 
+app.use(express.static("public"));
+app.use("/static", express.static("public"));
+
+
 app.get('/', (req, res) => {
-    res.send(text)
+    res.sendFile(__dirname + "/index.html")
+})
+
+app.get('/menu', (req, res) => {
+    res.sendFile(__dirname + "/menu.html") // no funciona
 })
 
 app.listen(3000)
