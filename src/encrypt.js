@@ -4,15 +4,15 @@ const bcrypt = require('bcrypt');
 
 // Encriptador de contraseñas
 
-const encrypt = async (TextPlain) => {
+const encriptar = async (TextPlain) => {
     const hash = await bcrypt.hash(TextPlain, 10);
     return hash;
 };
 
 // Comparador de constraseñas
 
-const compare = async (PasswordPlain, HashPassword) => {
+const comparar = async (PasswordPlain, HashPassword) => {
     return await bcrypt.compare(PasswordPlain, HashPassword);
 };
 
-module.exports = {encrypt, compare};
+module.exports = {encriptar, comparar};
