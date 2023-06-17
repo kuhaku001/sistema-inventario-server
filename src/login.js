@@ -1,7 +1,7 @@
 const encryp = require('./encrypt');
 const crud = require('./nodeapp/usuarioCRUD');
 
-const register = async (nombre, contraseña, dispositvo) => {
+const register = async (nombre = "", contraseña = "", dispositvo = "") => {
     try {
         const passwordHash = await encryp.encriptar(contraseña); 
         crud.crearUsuario(nombre, passwordHash, dispositvo);
@@ -10,7 +10,7 @@ const register = async (nombre, contraseña, dispositvo) => {
     }
 }
 
-const login = async (nombre, textoplano) => {
+const login = async (nombre = "", textoplano = "") => {
 
     const data = await crud.buscarUsuario(nombre)
 
@@ -22,4 +22,4 @@ const login = async (nombre, textoplano) => {
         console.log("No puedes entrar");                    // cambiar
     }
 }
-login ("Admin", "PapaFrita")
+
