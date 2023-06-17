@@ -1,8 +1,7 @@
 const userModel = require('./models'); 
-const mongoose = require('./mongooseConection');
 
-const crearUsuario = async(nombreUsuario, contraseña, dispositivo = '') => {
-    const user = userModel({
+const crearUsuario = async(nombreUsuario, contraseña, dispositivo) => {
+    const user = new userModel.usuario({
         nombre: nombreUsuario,
         contraseña: contraseña,
         sesiones: [{
@@ -10,30 +9,21 @@ const crearUsuario = async(nombreUsuario, contraseña, dispositivo = '') => {
             inico: true
         }]
     })
-    const savedUsuario = await user.save()
+    await user.save()
 
-    mongoose.disconnect()
 }
 
 const buscarUsuario = async (nombreUsuario) => {
-    const user = await userModel.findOne({'nombre' : nombreUsuario})
+    const user = await userModel.usuario.findOne({'nombre' : nombreUsuario})
 
-        const usuario = user.nombre
-        const contraseña = user.contraseña
+    const savedUsuario = await user.save();
 
-    const savedUsuario = await user.save()
-
-    mongoose.disconnect()
-
-    return savedUsuario
+    return savedUsuario;
 }
 
 const eliminarUsuario = async (nombreUsuario) => {
-    const user = await userModel.deleteOne({'nombre' : nombreUsuario})
+    const user = await userModel.usuario.deleteOne({'nombre' : nombreUsuario})
 
-    const savedUsuario = await user.save()
-
-    mongoose.disconnect()
 }
 
 module.exports = {crearUsuario, buscarUsuario, eliminarUsuario};

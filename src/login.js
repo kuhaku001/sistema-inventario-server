@@ -1,25 +1,31 @@
 const encryp = require('./encrypt');
 const crud = require('./nodeapp/usuarioCRUD');
+const mongoose = require('./nodeapp/mongooseConection');
 
-const register = async (nombre = "", contraseña = "", dispositvo = "") => {
+const registro = async (nombre, contraseña, dispositvo) => {
     try {
         const passwordHash = await encryp.encriptar(contraseña); 
-        crud.crearUsuario(nombre, passwordHash, dispositvo);
+        await crud.crearUsuario(nombre, passwordHash, dispositvo);
+
     } catch (e) {
         console.log(e)
     }
+    mongoose.disconnect();
 }
 
-const login = async (nombre = "", textoplano = "") => {
+const login = async (nombre, textoplano) => {
 
     const data = await crud.buscarUsuario(nombre)
 
     try {
-        if(encryp.comparar(textoplano, data.contraseña)){
-            console.log("Puedes entrar");                   // cambiar 
+        if( await encryp.comparar(textoplano, data.contraseña)){
+            console.log("Puedes entrar");                               // cambiar 
+        } else {
+            console.log("No puedes entrar");
         }
-    } catch {
-        console.log("No puedes entrar");                    // cambiar
+    } catch(e) {
+        console.log(e);                                                 // cambiar
     }
+    mongoose.disconnect();
 }
 

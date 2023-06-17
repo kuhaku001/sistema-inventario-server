@@ -18,8 +18,8 @@ const caja = mongoose.connection.model('caja', {
 
 const material = mongoose.connection.model('material',{
     nombre : String,
-    cantidad : Int32Array,
-    precio : Int16Array,
+    cantidad : Number,
+    precio : Number,
     descripcion : Array,
     origen : String,
     etiquetas : Array,
