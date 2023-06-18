@@ -27,5 +27,3 @@ const eliminarUsuario = async (nombreUsuario) => {
 }
 
 module.exports = {crearUsuario, buscarUsuario, eliminarUsuario};
-
-//buscarUsuario('Camila Carcamo Caucaman')

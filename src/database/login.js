@@ -1,6 +1,5 @@
 const encryp = require('./encrypt');
-const crud = require('./nodeapp/usuarioCRUD');
-const mongoose = require('./nodeapp/mongooseConection');
+const crud = require('./usuarioCRUD');
 
 const registro = async (nombre, contraseña, dispositvo) => {
     try {
@@ -10,7 +9,6 @@ const registro = async (nombre, contraseña, dispositvo) => {
     } catch (e) {
         console.log(e)
     }
-    mongoose.disconnect();
 }
 
 const login = async (nombre, textoplano) => {
@@ -26,6 +24,6 @@ const login = async (nombre, textoplano) => {
     } catch(e) {
         console.log(e);                                                 // cambiar
     }
-    mongoose.disconnect();
 }
 
+module.exports = {login, registro}
