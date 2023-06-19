@@ -23,7 +23,6 @@ const buscarUsuario = async (nombreUsuario) => {
 
 const eliminarUsuario = async (nombreUsuario) => {
     const user = await userModel.usuario.deleteOne({'nombre' : nombreUsuario})
-
 }
 
 module.exports = {crearUsuario, buscarUsuario, eliminarUsuario};
