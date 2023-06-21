@@ -1,4 +1,4 @@
-const materialModel = require('./models'); 
+const materialModel = require('../model/models'); 
 
 const crearMaterial = async(nombreMaterial, cantidadMaterial, precioMaterial, descripcionMaterial, origenMaterial, etiquetasMaterial = [], estadoMaterial) => {
     const material = new materialModel.material({
