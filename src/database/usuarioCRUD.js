@@ -18,7 +18,7 @@ const buscarUsuario = async (nombreUsuario) => {
 
     const savedUsuario = await user.save();
 
-    return savedUsuario;
+    return await savedUsuario;
 }
 
 const eliminarUsuario = async (nombreUsuario) => {

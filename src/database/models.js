@@ -1,4 +1,4 @@
-const mongoose = require('../database/mongooseConection');
+const mongoose = require('./mongooseConection');
 
 const usuario = mongoose.connection.model('usuario', {
     nombre : String,
