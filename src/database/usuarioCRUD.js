@@ -1,6 +1,6 @@
 const userModel = require('./models'); 
 
-const crearUsuario = async(nombreUsuario, contraseña, dispositivo) => {
+const crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
     const user = new userModel.usuario({
         nombre: nombreUsuario,
         contraseña: contraseña,
@@ -14,11 +14,16 @@ const crearUsuario = async(nombreUsuario, contraseña, dispositivo) => {
 }
 
 const buscarUsuario = async (nombreUsuario) => {
-    const user = await userModel.usuario.findOne({'nombre' : nombreUsuario})
+    try {
+        const user = await userModel.usuario.findOne({'nombre' : nombreUsuario})
 
-    const savedUsuario = await user.save();
+        const savedUsuario = await user.save();
+    
+        return await savedUsuario;
+    } catch (error) {
+        return false
+    }
 
-    return await savedUsuario;
 }
 
 const eliminarUsuario = async (nombreUsuario) => {

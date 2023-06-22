@@ -1,12 +1,14 @@
 const express = require('express');
 const conectionDB = require('./database/mongooseConection');
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express();
 
 conectionDB.connection;
 
 app.use(morgan('dev'));
+app.use(cors());
 
 app.use(express.json());
 

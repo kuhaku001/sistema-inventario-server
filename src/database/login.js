@@ -4,7 +4,8 @@ const crud = require('./usuarioCRUD');
 const registro = async (nombre, contraseña, dispositvo) => {
     try {
         const passwordHash = await encryp.encriptar(contraseña); 
-        await crud.crearUsuario(nombre, passwordHash, dispositvo);
+        
+        return await crud.crearUsuario(nombre, passwordHash, dispositvo);
 
     } catch (e) {
         console.log(e)
@@ -14,15 +15,15 @@ const registro = async (nombre, contraseña, dispositvo) => {
 const login = async (nombre, textoplano) => {
 
     const data = await crud.buscarUsuario(nombre)
-
+    
     try {
         if( await encryp.comparar(textoplano, data.contraseña)){
-            console.log("Puedes entrar");                               // cambiar 
+            return [true, data]
         } else {
-            console.log("No puedes entrar");
+            return false
         }
-    } catch(e) {
-        console.log(e);                                                 // cambiar
+    } catch (error) {
+        return false
     }
 }
 
