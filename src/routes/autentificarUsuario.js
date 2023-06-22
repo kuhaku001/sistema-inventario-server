@@ -1,5 +1,4 @@
 const {Router} = require('express');
-const useragent = require('express-useragent')
 const {login} = require('../database/login');
 const jws = require('jsonwebtoken');
 const router = Router();
