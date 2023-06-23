@@ -1,13 +1,16 @@
 const {Router} = require('express');
 const {login} = require('../database/login');
 const jws = require('jsonwebtoken');
+const verificarToken = require('./autentificarToken')
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.send('inicio');
+    if (verificarToken(req, res)) {
+        res.send("Valido")
+    } else {
+        res.status(401).send("No tienes autorizacion")
+    }
 });
-
-
 
 router.post('/', async (req, res) => {
 

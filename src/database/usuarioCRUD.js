@@ -21,7 +21,22 @@ const buscarUsuario = async (nombreUsuario) => {
     
         return await savedUsuario;
     } catch (error) {
-        return false
+        return false // verificar
+    }
+
+}
+
+const buscarUsuarioID = async (idUsuario) => {
+    try {
+        const user = await userModel.usuario.findOne({'_id' : idUsuario})
+
+        if(user !== null && user !== undefined){
+            return true
+        } else{
+            return false
+        }
+    } catch (error) {
+        return false // verificar
     }
 
 }
@@ -30,4 +45,4 @@ const eliminarUsuario = async (nombreUsuario) => {
     const user = await userModel.usuario.deleteOne({'nombre' : nombreUsuario})
 }
 
-module.exports = {crearUsuario, buscarUsuario, eliminarUsuario};
+module.exports = {crearUsuario, buscarUsuario, eliminarUsuario, buscarUsuarioID };
