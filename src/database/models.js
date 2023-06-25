@@ -1,5 +1,6 @@
 const mongoose = require('./mongooseConection');
 
+
 const usuario = mongoose.connection.model('usuario', {
     nombre : String,
     contraseña : String,
@@ -16,7 +17,7 @@ const caja = mongoose.connection.model('caja', {
     materiales : Array
 })
 
-const material = mongoose.connection.model('material',{
+/*const material = mongoose.connection.model('material',{
     nombre : String,
     cantidad : Number,
     precio : Number,
@@ -24,7 +25,7 @@ const material = mongoose.connection.model('material',{
     origen : String,
     etiquetas : Array,
     'estado reserva' : Boolean
-})
+})*/
 
 const informe_costos = mongoose.connection.model('informe de costos', {
     costos : Array,
@@ -37,4 +38,6 @@ const lista_de_compra = mongoose.connection.model('lista de compra', {
     'lista de items' : Array
 })
 
-module.exports = {usuario, etiqueta, caja, material, informe_costos, lista_de_compra};
+module.exports = {usuario, etiqueta, caja,  informe_costos, lista_de_compra};
+
+
