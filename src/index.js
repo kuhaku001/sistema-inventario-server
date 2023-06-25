@@ -12,6 +12,8 @@ app.use(morgan('dev'));
 
 app.use(express.json());
 
+app.use('/api/materiales', require('./routes/materiales'));
+
 app.use(require('./routes/autentificarUsuario'))
 
 app.listen(3000, () => {
