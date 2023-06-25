@@ -8,7 +8,7 @@ const app = express();
 conectionDB.connection;
 
 app.use(morgan('dev'));
-//app.use(cors());
+app.use(cors());
 
 app.use(express.json());
 
