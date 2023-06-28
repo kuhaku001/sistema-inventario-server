@@ -1,9 +1,9 @@
 const materialesModels = require("../database/materialesModels");
 const materialM =require('../database/models')
-
+const Token = require('./autentificarToken')
 
 exports.crearMateriales = async (req, res) => { 
-        
+    if(Token(req)){
         try {
                
             // Creamos nuestro material
@@ -16,81 +16,94 @@ exports.crearMateriales = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-
+    } else {
+        res.status(404).send('solicitud no autorizada')
+    }
 }
 
 exports.obtenerMateriales = async (req, res) => {
+    if(await Token(req)){
+        try {
 
-    try {
-
-        const material = await materialesModels.find();
-        res.json(material)
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
+            const material = await materialesModels.find();
+            res.json(material)
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Hubo un error');
+        }
+    } else {
+        res.status(404).send('solicitud no autorizada')
     }
-
 }
 
 
 exports.actualizarMateriales = async (req, res) => {
+    if(await Token(req)){
+        try {
+            const { nombre,cantidad,precio,origen } = req.body;
+            let material =await materialesModels.findById(req.params.id);
 
-    try {
-        const { nombre,cantidad,precio,origen } = req.body;
-        let material =await materialesModels.findById(req.params.id);
+            if(!material){
+                res.status(404).json({msg:'no existe el material'})
+            }
+            material.nombre=nombre
+            material.cantidad=cantidad
+            material.precio=precio
+            material.origen=origen
 
-        if(!material){
-            res.status(404).json({msg:'no existe el material'})
+            material= await materialesModels.findOneAndUpdate({_id:req.params.id},material,{new:true})
+            res.json(material);
+            
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Hubo un error');
         }
-        material.nombre=nombre
-        material.cantidad=cantidad
-        material.precio=precio
-        material.origen=origen
-
-        material= await materialesModels.findOneAndUpdate({_id:req.params.id},material,{new:true})
-        res.json(material);
-        
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
+    } else {
+        res.status(404).send('solicitud no autorizada')
     }
 }
 
 
 exports.obtenerMaterial = async (req, res) => {
+    if(await Token(req)){
+        try {
+            let material = await materialesModels.findById(req.params.id);
 
-    try {
-        let material = await materialesModels.findById(req.params.id);
-
-        if(!material) {
-            res.status(404).json({ msg: 'No existe el producto' })
-        }
-       
-        res.json(material);
+            if(!material) {
+                res.status(404).json({ msg: 'No existe el producto' })
+            }
         
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
+            res.json(material);
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Hubo un error');
+        }
+    } else {
+        res.status(404).send('solicitud no autorizada')
     }
 }
 
 
 exports.eliminarMaterial = async (req, res) => {
+    if(await Token(req)){
+        try {
+            let material = await materialesModels.findById(req.params.id);
 
-    try {
-        let material = await materialesModels.findById(req.params.id);
+            if(!material) {
+                res.status(404).json({ msg: 'No existe el producto' })
+            }
 
-        if(!material) {
-            res.status(404).json({ msg: 'No existe el producto' })
+            await materialesModels.findOneAndRemove({_id:req.params.id})
+            res.json('material eliminado con  exito');
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Hubo un error');
         }
-
-        await materialesModels.findOneAndRemove({_id:req.params.id})
-        res.json('material eliminado con  exito');
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
+    } else {
+        res.status(404).send('solicitud no autorizada')
     }
 }

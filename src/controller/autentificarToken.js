@@ -1,4 +1,4 @@
-const  { buscarUsuarioID } = require('../database/usuarioCRUD')
+const  { buscarUsuarioID } = require('./usuarioController')
 const jws = require('jsonwebtoken');
 
 function verificarToken(req){
@@ -15,7 +15,7 @@ function verificarToken(req){
                 } else {
                     return false
                 }
-            } catch (error) {
+            } catch {
                 return false
             }
             
