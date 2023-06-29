@@ -1,4 +1,4 @@
-const userModel = require('../database/models'); 
+const userModel = require('../models/models'); 
 
 const crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
     const user = new userModel.usuario({
