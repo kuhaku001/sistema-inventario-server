@@ -20,6 +20,9 @@ app.use('/api/cliente', require('./routes/cliente'));
 
 app.use('/api/materiales', require('./routes/materiales'));
 
+
+app.use('/api/pedidos', require('./routes/pedidos'));
+
 app.use(require('./routes/autentificarUsuario'))
 
 app.listen(3000, () => {
