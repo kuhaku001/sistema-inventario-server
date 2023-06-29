@@ -1,8 +1,7 @@
-
-const  { buscarUsuarioID } = require('../database/usuarioCRUD')
+const  { buscarUsuarioID } = require('./usuarioController')
 const jws = require('jsonwebtoken');
 
-function verificarToken(req, res){
+function verificarToken(req){
     if(req.headers.authorization !== undefined){
         const token = req.headers.authorization.split(' ')[1]
         
@@ -16,7 +15,7 @@ function verificarToken(req, res){
                 } else {
                     return false
                 }
-            } catch (error) {
+            } catch {
                 return false
             }
             

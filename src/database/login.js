@@ -1,5 +1,5 @@
 const encryp = require('./encrypt');
-const crud = require('./usuarioCRUD');
+const crud = require('../controller/usuarioController');
 
 const registro = async (nombre, contraseña, dispositvo) => {
     try {
