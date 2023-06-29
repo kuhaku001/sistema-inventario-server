@@ -1,5 +1,5 @@
-const materialesModels = require("../database/materialesModels");
-const materialM =require('../database/models')
+const materialesModels = require("../models/materialesModels");
+const materialM =require('../models/models')
 
 
 exports.crearMateriales = async (req, res) => { 
@@ -23,7 +23,7 @@ exports.obtenerMateriales = async (req, res) => {
 
     try {
 
-        const material = await materialesModels.find();
+        const material = await materialesModels.find().limit(20).skip();
         res.json(material)
         
     } catch (error) {

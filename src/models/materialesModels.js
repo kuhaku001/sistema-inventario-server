@@ -25,7 +25,16 @@ const MaterialesSchema = mongoose.Schema({
     etiquetas:{
         type:Array,
         required:false
-    }
+
+    },
+    estado:{
+        type:Boolean
+    },
+   
+    
+
+},{
+    timestamps:true
 
 });
 
