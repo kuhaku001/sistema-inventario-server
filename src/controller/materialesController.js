@@ -42,9 +42,9 @@ exports.obtenerMateriales = async (req, res) => {
 
 
 exports.actualizarMateriales = async (req, res) => {
-    if(await Token(req)){
+    
         try {
-            const { nombre,cantidad,precio,origen } = req.body;
+            const { nombre,cantidad,precio,origen,descripcion } = req.body;
             let material =await materialesModels.findById(req.params.id);
 
             if(!material){
@@ -54,6 +54,7 @@ exports.actualizarMateriales = async (req, res) => {
             material.cantidad=cantidad
             material.precio=precio
             material.origen=origen
+            material.descripcion=descripcion
 
             material= await materialesModels.findOneAndUpdate({_id:req.params.id},material,{new:true})
             res.json(material);
@@ -63,9 +64,7 @@ exports.actualizarMateriales = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-    } else {
-        res.status(404).send('solicitud no autorizada')
-    }
+
 }
 
 

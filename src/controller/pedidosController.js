@@ -52,7 +52,7 @@ exports.actualizarPedido = async (req, res) => {
         pedido.pedido_descripcion=pedido_descripcion
         pedido.pedido_etiqueta=pedido_etiqueta
 
-        cliente= await pedidosModels.findOneAndUpdate({_id:req.params.id},pedido,{new:true})
+        pedido= await pedidosModels.findOneAndUpdate({_id:req.params.id},pedido,{new:true})
         res.json(pedido);
         
         
