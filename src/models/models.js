@@ -7,10 +7,10 @@ const usuario = mongoose.connection.model('usuario', {
     sesiones : Array
 });
 
-const etiqueta = mongoose.connection.model('etiqueta',{
+/*const etiqueta = mongoose.connection.model('etiqueta',{
     nombre : String,
     color : String
-})
+})*/
 
 const caja = mongoose.connection.model('caja', {
     nombre : String,
@@ -38,6 +38,6 @@ const lista_de_compra = mongoose.connection.model('lista de compra', {
     'lista de items' : Array
 })
 
-module.exports = {usuario, etiqueta, caja,  informe_costos, lista_de_compra};
+module.exports = {usuario,  caja,  informe_costos, lista_de_compra};
 
 

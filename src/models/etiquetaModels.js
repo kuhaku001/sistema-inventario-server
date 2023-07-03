@@ -7,3 +7,6 @@ const etiquetaSchema = mongoose.Schema({
 })
 
 module.exports = mongoose.model('etiquetas', etiquetaSchema);
+
+
+"borrar  esto"
