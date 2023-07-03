@@ -2,8 +2,10 @@ const express = require('express');
 const conectionDB = require('./database/mongooseConection');
 const morgan = require('morgan')
 const cors = require('cors')
+const materialesModels = require("./models/materialesModels");
 
 const app = express();
+
 
 conectionDB.connection;
 
@@ -22,6 +24,13 @@ app.use('/api/materiales', require('./routes/materiales'));
 
 
 app.use('/api/pedidos', require('./routes/pedidos'));
+
+app.use('/api/etiqueta', require('./routes/etiqueta'));
+
+
+
+
+
 
 app.use(require('./routes/autentificarUsuario'))
 
