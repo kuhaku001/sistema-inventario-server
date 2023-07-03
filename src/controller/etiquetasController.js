@@ -22,7 +22,7 @@ exports.obtenerEtiquetas = async (req, res) => {
    
     try {
 
-        const etiqueta = await etiquetaModels.aggregate()
+        const etiqueta = await etiquetaModels.find() // no funcionaba con el aggregate
         res.json(etiqueta)
         
     } catch (error) {

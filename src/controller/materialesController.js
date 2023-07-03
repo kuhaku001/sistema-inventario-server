@@ -34,8 +34,8 @@ exports.obtenerMateriales = async (req, res) => {
             res.status(500).send('Hubo un error');
             
         } 
-        } else {
-            res.status(404).send('solicitud no autorizada')
+    } else {
+        res.status(404).send('solicitud no autorizada')
     }
 }
 

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const etiquetaSchema = mongoose.Schema({ 
-    name:String,
-    color_etiqueta:String
+    nombre:String,
+    color:String
     
 })
 
