@@ -37,17 +37,17 @@ exports.obtenerEtiquetas = async (req, res) => {
 exports.actualizarEtiqueta = async (req, res) => {
     
     try {
-        const { name,color_etiqueta } = req.body;
-        let etiqueta =await etiquetaModels.findById(req.params.id);
+        const { nombre,color } = req.body;
+        let etiqueta = await etiquetaModels.findById(req.params.id);
 
         if(!etiqueta){
             res.status(404).json({msg:'no existe el material'})
         }
-        material.name=name
-        material.color_etiqueta=color_etiqueta
+        etiqueta.nombre = nombre
+        etiqueta.color = color
       
 
-        material= await etiquetaModels.findOneAndUpdate({_id:req.params.id},etiqueta,{new:true})
+        etiqueta = await etiquetaModels.findOneAndUpdate({_id:req.params.id},etiqueta,{new:true})
         res.json(etiqueta);
         
         
