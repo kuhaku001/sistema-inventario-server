@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const etiquetaSchema = mongoose.Schema({ 
 
     
-    nombre:String,
-    color:String,
+    name:String,
+    color_etiqueta:String,
     etiquetasR:{
         type:mongoose.Schema.Types.ObjectId,ref:"Materiales"
     },
