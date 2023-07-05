@@ -8,11 +8,6 @@ const etiquetaSchema = mongoose.Schema({
     etiquetasR:{
         type:mongoose.Schema.Types.ObjectId,ref:"Materiales"
     },
-   
-        
-
-
-
     
 })
 

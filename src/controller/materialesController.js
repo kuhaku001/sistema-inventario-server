@@ -41,13 +41,6 @@ exports.obtenerMateriales = async (req, res) => {
 
 } 
 
-    
-    
-
-
-
-
-
 exports.actualizarMateriales = async (req, res) => {
     
         try {
@@ -137,12 +130,6 @@ exports.registrarUnaEtiqueta = async (req,res) => {
     });
     res.send(`${etiquetaActulizada.name}update`)
 }                                                                                                                                              
-
-
-
-   
-  
-
 
 
   
