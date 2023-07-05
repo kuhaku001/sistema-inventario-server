@@ -1,3 +1,4 @@
+const clienteModels = require("../models/clienteModels");
 const pedidosModels = require("../models/pedidosModels");
 
 
@@ -96,3 +97,35 @@ exports.eliminarPedido = async (req, res) => {
         res.status(500).send('Hubo un error');
     }
 }
+
+exports.agregarPedidoCliente = async (req ,res) => { 
+    try {
+           
+        const nuevoPedido = pedidosModels(req.body);
+        const cliente= await clienteModels.findById(req.params.id);
+        nuevoPedido.codigo_pedido=cliente
+        await nuevoPedido.save();
+        cliente.pedidos.push(nuevoPedido)
+        await cliente.save();
+        res.send(nuevoPedido);
+        console.log(cliente)
+        
+        
+        //res.send(nuevoPedido);
+        
+    } catch (error) {
+        console.log(error); 
+        res.status(500).send('Hubo un error');
+        
+    }
+
+};
+
+
+
+
+exports.MostrarDatosPedidos = async (req ,res) => {
+    //buscar  ususario  y  poblar  el  arreglo  de peididos  del  cliente
+    const cliente = await clienteModels.findById(req.params.id).populate('pedidos')
+    res.send(cliente)
+ }

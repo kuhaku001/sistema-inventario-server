@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema= mongoose.Schema;
    
-const clienteSchema = mongoose.Schema({
+const clienteSchema = new Schema({
     nombre_cliente: {
         type: String,
         required: false
@@ -13,10 +14,10 @@ const clienteSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    pedidos: {
-        type: Array,
-        required: false
-    },
+    pedidos: [{
+        type: Schema.Types.ObjectId,
+        ref:'pedidos'
+    } ]  
 },{
     timestamps:true
 

@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
+
+const Schema= mongoose.Schema;
    
-const pedidosSchema = mongoose.Schema({
+const pedidosSchema = new Schema({
 
     codigo_pedido:{
-        type:Number,
-        required: false
+        type:Schema.Types.ObjectId,
+        ref:'cliente',
+        
     },
     materiales:{
         type:Array,

@@ -12,4 +12,7 @@ router.get('/:id',materialesController.obtenerMaterial)
 router.delete('/:id',materialesController.eliminarMaterial)
 
 
+router.post('/Etiqueta/:_id',materialesController.registrarEtiqueta)
+
+
 module.exports = router;

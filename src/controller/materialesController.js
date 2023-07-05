@@ -1,10 +1,11 @@
 
+const etiquetaModels = require("../models/etiquetaModels");
 const materialesModels = require("../models/materialesModels");
 const Token = require('./autentificarToken')
 
 
 exports.crearMateriales = async (req, res) => { 
-    if(Token(req)){
+    
         try {
                
             // Creamos nuestro material
@@ -17,16 +18,19 @@ exports.crearMateriales = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-    } else {
-        res.status(404).send('solicitud no autorizada')
-    }
+    
+    
 }
 
 exports.obtenerMateriales = async (req, res) => {
-    if(await Token(req)){
+   
         try {
 
-            const material = await materialesModels.find().limit(20).skip();
+            const material = await materialesModels.find().populate({
+                path:'etiquetaM',
+                select:'name'
+
+            });
             res.json(material)
             
         } catch (error) {
@@ -34,12 +38,7 @@ exports.obtenerMateriales = async (req, res) => {
             res.status(500).send('Hubo un error');
             
         } 
-        } else {
-            res.status(404).send('solicitud no autorizada')
-    }
-}
-
-
+    } 
 
 exports.actualizarMateriales = async (req, res) => {
     
@@ -69,7 +68,7 @@ exports.actualizarMateriales = async (req, res) => {
 
 
 exports.obtenerMaterial = async (req, res) => {
-    if(await Token(req)){
+   
         try {
             let material = await materialesModels.findById(req.params.id);
 
@@ -83,14 +82,12 @@ exports.obtenerMaterial = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-    } else {
-        res.status(404).send('solicitud no autorizada')
-    }
-}
+    } 
+    
 
 
 exports.eliminarMaterial = async (req, res) => {
-    if(await Token(req)){
+    
         try {
             let material = await materialesModels.findById(req.params.id);
 
@@ -105,7 +102,39 @@ exports.eliminarMaterial = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-    } else {
-        res.status(404).send('solicitud no autorizada')
-    }
+    
+    
 }
+
+
+exports.registrarEtiqueta = async (req,res) => {
+    const etiquetaNuevo=new etiquetaModels(req.body)
+    const material=await materialesModels.findById (req.params)
+    etiquetaNuevo.etiquetaM=material
+
+    await etiquetaNuevo.save()
+    material.etiquetaM.push(etiquetaNuevo)
+    await material.save();
+    res.send(etiquetaNuevo)
+    
+}
+    
+
+exports.registrarUnaEtiqueta = async (req,res) => {
+    const{_id}=req.params;
+    const{etiqueta}=req.params;
+    const etiquetaActulizada=await materialesModels.findOneAndUpdate(_id,{
+        $push:{etiquetaM:etiqueta},
+
+    });
+    res.send(`${etiquetaActulizada.name}update`)
+}                                                                                                                                              
+
+
+
+   
+  
+
+
+
+  

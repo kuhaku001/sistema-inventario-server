@@ -1,12 +1,20 @@
 const mongoose = require('mongoose');
 
 const etiquetaSchema = mongoose.Schema({ 
+    
     name:String,
-    color_etiqueta:String
+    color_etiqueta:String,
+    etiquetasR:{
+        type:mongoose.Schema.Types.ObjectId,ref:"Materiales"
+    },
+   
+        
+
+    
     
 })
 
-module.exports = mongoose.model('etiquetas', etiquetaSchema);
+module.exports = mongoose.model('ETIQUETAS', etiquetaSchema);
 
 
 "borrar  esto"
