@@ -22,9 +22,9 @@ const MaterialesSchema = mongoose.Schema({
         required: false
         
     },
-    etiquetaM:[{
-        type:mongoose.Schema.Types.ObjectId,ref:'ETIQUETAS' 
-        
+    etiquetas:[{
+        type: Array,
+        required: false 
 
     }],
 

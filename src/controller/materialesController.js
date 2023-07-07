@@ -41,6 +41,23 @@ exports.obtenerMateriales = async (req, res) => {
 
 } 
 
+
+exports.obtenerMaterialesEtiquetas = async (req, res) => {
+   
+    try {
+
+        const material = await materialesModels.aggregate([])
+        res.json(material)
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+        
+    } 
+
+} 
+
+
 exports.actualizarMateriales = async (req, res) => {
     
         try {
@@ -107,29 +124,42 @@ exports.eliminarMaterial = async (req, res) => {
     
 }
 
+// mosrtar materiales con las etquetas
+
+exports.mostrarMaterialEtiquetas = async (req,res) => { 
+    try {
+
+        const material = await materialesModels.aggregate([
+            {$lookup : {
+                    from: "etiquetas", 
+                    localField: "etiquetas", 
+                    foreignField: "name", 
+                    as: "Etiquetas"
+                }
+            },
+            {$project : {
+                etiquetas: 0
+                }
+            }
+        ]) 
+        res.json(material)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    } 
+}
 
 exports.registrarEtiqueta = async (req,res) => {
-    const etiquetaNuevo=new etiquetaModels(req.body)
-    const material=await materialesModels.findById (req.params)
-    etiquetaNuevo.etiquetaM=material
+    try {   
+        const{_id}=req.params;
+        const{etiqueta}=req.params;
 
-    await etiquetaNuevo.save()
-    material.etiquetaM.push(etiquetaNuevo)
-    await material.save();
-    res.send(etiquetaNuevo)
-    
+        const update = await materialesModels.updateOne(
+            {_id},
+            {$push : {etiquetas : etiqueta }
+        });
+        console.log(update)
+    } catch (error) {
+        console.log(error);
+    }
 }
-    
-
-exports.registrarUnaEtiqueta = async (req,res) => {
-    const{_id}=req.params;
-    const{etiqueta}=req.params;
-    const etiquetaActulizada=await materialesModels.findOneAndUpdate(_id,{
-        $push:{etiquetaM:etiqueta},
-
-    });
-    res.send(`${etiquetaActulizada.name}update`)
-}                                                                                                                                              
-
-
-  

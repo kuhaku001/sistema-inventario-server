@@ -4,10 +4,7 @@ const etiquetaSchema = mongoose.Schema({
 
     
     name:String,
-    color_etiqueta:String,
-    etiquetasR:{
-        type:mongoose.Schema.Types.ObjectId,ref:"Materiales"
-    },
+    color_etiqueta:String
     
 })
 
