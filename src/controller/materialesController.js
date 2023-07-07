@@ -141,7 +141,7 @@ exports.mostrarMaterialEtiquetas = async (req,res) => {
                 etiquetas: 0
                 }
             }
-        ]) 
+        ]).sort({updatedAt: -1}) // Ordena desde la mas reciente actualizacion
         res.json(material)
     } catch (error) {
         console.log(error);
