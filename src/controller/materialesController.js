@@ -22,26 +22,6 @@ exports.crearMateriales = async (req, res) => {
     
 }
 
-exports.obtenerMateriales = async (req, res) => {
-   
-        try {
-
-            const material = await materialesModels.find().populate({
-                path:'etiquetaM',
-                select:'name'
-
-            });
-            res.json(material)
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).send('Hubo un error');
-            
-        } 
-
-} 
-
-
 exports.obtenerMaterialesEtiquetas = async (req, res) => {
    
     try {
