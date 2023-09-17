@@ -1,11 +1,10 @@
-
 const etiquetaModels = require("../models/etiquetaModels");
 const materialesModels = require("../models/materialesModels");
 const Token = require('./autentificarToken')
 
 
 exports.crearMateriales = async (req, res) => { 
-    
+    if(Token(req)){
         try {
                
             // Creamos nuestro material
@@ -18,28 +17,31 @@ exports.crearMateriales = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-    
-    
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
 }
 
 exports.obtenerMaterialesEtiquetas = async (req, res) => {
-   
-    try {
+    if(Token(req)){
+        try {
 
-        const material = await materialesModels.aggregate([])
-        res.json(material)
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-        
-    } 
-
+            const material = await materialesModels.aggregate([])
+            res.json(material)
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Hubo un error');
+            
+        } 
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
 } 
 
 
 exports.actualizarMateriales = async (req, res) => {
-    
+    if(Token(req)){
         try {
             const { nombre,cantidad,precio,origen,descripcion } = req.body;
             let material =await materialesModels.findById(req.params.id);
@@ -61,12 +63,14 @@ exports.actualizarMateriales = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
 }
 
 
 exports.obtenerMaterial = async (req, res) => {
-   
+    if(Token(req)){
         try {
             let material = await materialesModels.findById(req.params.id);
 
@@ -80,12 +84,15 @@ exports.obtenerMaterial = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
     } 
     
 
 
 exports.eliminarMaterial = async (req, res) => {
-    
+    if(Token(req)){
         try {
             let material = await materialesModels.findById(req.params.id);
 
@@ -100,46 +107,56 @@ exports.eliminarMaterial = async (req, res) => {
             console.log(error);
             res.status(500).send('Hubo un error');
         }
-    
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
     
 }
 
 // mosrtar materiales con las etquetas
 
 exports.mostrarMaterialEtiquetas = async (req,res) => { 
-    try {
+    if(Token(req)){
+        try {
 
-        const material = await materialesModels.aggregate([
-            {$lookup : {
-                    from: "etiquetas", 
-                    localField: "etiquetas", 
-                    foreignField: "name", 
-                    as: "Etiquetas"
+            const material = await materialesModels.aggregate([
+                {$lookup : {
+                        from: "etiquetas", 
+                        localField: "etiquetas", 
+                        foreignField: "name", 
+                        as: "Etiquetas"
+                    }
+                },
+                {$project : {
+                    etiquetas: 0
+                    }
                 }
-            },
-            {$project : {
-                etiquetas: 0
-                }
-            }
-        ]).sort({updatedAt: -1}) // Ordena desde la mas reciente actualizacion
-        res.json(material)
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-    } 
+            ]).sort({updatedAt: -1}) // Ordena desde la mas reciente actualizacion
+            res.json(material)
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Hubo un error');
+        } 
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
 }
 
 exports.registrarEtiqueta = async (req,res) => {
-    try {   
-        const{_id}=req.params;
-        const{etiqueta}=req.params;
+    if(Token(req)){
+        try {   
+            const{_id}=req.params;
+            const{etiqueta}=req.params;
 
-        const update = await materialesModels.updateOne(
-            {_id},
-            {$push : {etiquetas : etiqueta }
-        });
-        console.log(update)
-    } catch (error) {
-        console.log(error);
+            const update = await materialesModels.updateOne(
+                {_id},
+                {$push : {etiquetas : etiqueta }
+            });
+            console.log(update)
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        res.status(400).send('Acceso denegado');
     }
 }
