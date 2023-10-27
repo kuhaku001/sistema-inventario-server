@@ -23,11 +23,7 @@ exports.crearEtiqueta = async (req, res) => {
 exports.obtenerEtiquetas = async (req, res) => {
     if(Token(req)){
         try {
-
-
-        
-
-            const etiqueta = await etiquetaModels.find() // no funcionaba con el aggregate
+            const etiqueta = await etiquetaModels.find()
 
             res.json(etiqueta)
             
@@ -40,8 +36,6 @@ exports.obtenerEtiquetas = async (req, res) => {
         res.status(400).send('Acceso denegado');
     }
 }
-
-
 
 exports.actualizarEtiqueta = async (req, res) => {
     if(Token(req)){
@@ -110,6 +104,3 @@ exports.obtenerEtiqueta = async (req, res) => {
         res.status(400).send('Acceso denegado');
     }
 } 
-
-
-"aaa"

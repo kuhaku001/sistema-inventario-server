@@ -31,8 +31,6 @@ const MaterialesSchema = mongoose.Schema({
     estado:{
         type:Boolean
     },
-   
-    
 
 },{
     timestamps:true

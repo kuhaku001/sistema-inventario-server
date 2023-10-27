@@ -5,7 +5,4 @@ const etiquetaSchema = mongoose.Schema({
     color_etiqueta:String
 })
 
-module.exports = mongoose.model('ETIQUETAS', etiquetaSchema);
-
-
-"borrar  esto"
+module.exports = mongoose.model('Etiquetas', etiquetaSchema);
