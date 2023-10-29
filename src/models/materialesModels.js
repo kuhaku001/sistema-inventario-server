@@ -22,11 +22,11 @@ const MaterialesSchema = mongoose.Schema({
         required: false
         
     },
-    etiquetas:[{
+    etiquetas:{
         type: Array,
-        required: false 
-
-    }],
+        default: [[]],
+        required: false, 
+    },
 
     estado:{
         type:Boolean
