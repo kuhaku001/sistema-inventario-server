@@ -26,7 +26,7 @@ exports.obtenerMaterialesEtiquetas = async (req, res) => {
     if(Token(req)){
         try {
 
-            const material = await materialesModels.aggregate([])
+            const material = await materialesModels.aggregate()
             res.json(material)
             
         } catch (error) {
@@ -119,18 +119,47 @@ exports.mostrarMaterialEtiquetas = async (req,res) => {
         try {
 
             const material = await materialesModels.aggregate([
-                {$lookup : {
+                {
+                    $unwind: "$etiquetas"
+                },
+                {
+                    $lookup : {
                         from: "etiquetas", 
                         localField: "etiquetas", 
                         foreignField: "name", 
-                        as: "Etiquetas"
+                        as: "Etiquetasall"
                     }
                 },
-                {$project : {
-                    etiquetas: 0
-                    }
+                {
+                
+                    $group: {
+                        _id: "$_id",
+                        Etiquetas: { $push: "$Etiquetasall" },
+                        nombre: {$first: "$nombre"},
+                        cantidad: {$first: "$cantidad"},
+                        precio: {$first: "$precio"},
+                        descripcion: {$first: "$descripcion"},
+                        origen: {$first: "$origen"},
+                        estado: {$first: "$estado"},
                 }
-            ]).sort({updatedAt: -1}) // Ordena desde la mas reciente actualizacion
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        Etiquetas: { 
+                            $reduce: { 
+                                input: "$Etiquetas", initialValue: [], in: { 
+                                    $concatArrays: ["$$value", "$$this"] 
+                                } 
+                            }
+                        },
+                        nombre: 1,
+                        cantidad: 1,
+                        precio: 1,
+                        descripcion: 1,
+                        origen: 1,
+                        estado: 1
+                }}]).sort({updatedAt: -1})
             res.json(material)
         } catch (error) {
             console.log(error);
@@ -143,18 +172,24 @@ exports.mostrarMaterialEtiquetas = async (req,res) => {
 
 exports.registrarEtiqueta = async (req,res) => {
     if(Token(req)){
-        try {   
-            const{_id}=req.params;
-            const{etiqueta}=req.params;
 
-            const update = await materialesModels.updateOne(
-                {_id},
-                {$push : {etiquetas : etiqueta }
-            });
-            console.log(update)
+      try {
+        const{_id}=req.params;
+        const etiquetas = req.body; 
+
+        
+        console.log(etiquetas)
+        const update = await materialesModels.updateOne(
+            {_id},
+            {$set : {"etiquetas" : etiquetas}
+        });
+
+        res.json(update)
         } catch (error) {
-            console.log(error);
+        console.log(error);
+        res.status(400).send('error')
         }
+
     } else {
         res.status(400).send('Acceso denegado');
     }
