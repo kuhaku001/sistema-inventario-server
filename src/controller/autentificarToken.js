@@ -1,5 +1,6 @@
 const  { buscarUsuarioID } = require('./usuarioController')
 const jws = require('jsonwebtoken');
+require('dotenv').config();
 
 async function verificarToken(req) {
     try {
@@ -8,7 +9,7 @@ async function verificarToken(req) {
             
             if(typeof(token) === 'string' && token !== null && token !== undefined){
                 try {
-                    const payload = jws.verify(token, 'secretKey')
+                    const payload = jws.verify(token, process.env.JSON_WEB_TOKEN_KEY)
                     const userID = payload._id
 
                     if(await buscarUsuarioID(userID)){

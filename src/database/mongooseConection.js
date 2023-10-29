@@ -1,6 +1,8 @@
+const { configDotenv } = require('dotenv');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-mongoose.connect("mongodb://127.0.0.1/unicorn");
+mongoose.connect(process.env.DB_MONGO_URL);
 
 var connection = mongoose.connection;
 var disconnect = mongoose.disconnect;
