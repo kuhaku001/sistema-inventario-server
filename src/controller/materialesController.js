@@ -8,13 +8,12 @@ exports.crearMateriales = async (req, res) => {
         try {
                
             // Creamos nuestro material
-            const material = materialesModels (req.body);
+            const material = materialesModels(req.body);
     
             await material.save();
-            res.send(material);
+            res.status(200).send(material);
             
         } catch (error) {
-            console.log(error);
             res.status(500).send('Hubo un error');
         }
     } else {

@@ -4,7 +4,8 @@ const mongoose = require('../database/mongooseConection');
 const usuario = mongoose.connection.model('usuario', {
     nombre : String,
     contraseña : String,
-    sesiones : Array
+    sesiones : Array,
+    rol: String
 });
 
 
