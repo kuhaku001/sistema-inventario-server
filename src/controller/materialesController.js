@@ -20,23 +20,6 @@ exports.crearMateriales = async (req, res) => {
     }
 }
 
-exports.obtenerMaterialesEtiquetas = async (req, res) => {
-    if(Token(req)){
-        try {
-
-            const material = await materialesModels.aggregate()
-            res.json(material)
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).send('Hubo un error');
-            
-        } 
-    } else {
-        res.status(400).send('Acceso denegado');
-    }
-} 
-
 exports.actualizarMateriales = async (req, res) => {
     if(Token(req)){
         try {
@@ -72,7 +55,7 @@ exports.obtenerMaterial = async (req, res) => {
             let material = await materialesModels.findById(req.params.id);
 
             if(!material) {
-                res.status(404).json({ msg: 'No existe el producto' })
+                res.status(404).json({ msg: 'No existe el material' })
             }
         
             res.json(material);
@@ -94,7 +77,7 @@ exports.eliminarMaterial = async (req, res) => {
             let material = await materialesModels.findById(req.params.id);
 
             if(!material) {
-                res.status(404).json({ msg: 'No existe el producto' })
+                res.status(404).json({ msg: 'No existe el material' })
             }
 
             await materialesModels.findOneAndRemove({_id:req.params.id})
@@ -110,7 +93,7 @@ exports.eliminarMaterial = async (req, res) => {
     
 }
 
-// mosrtar materiales con las etquetas
+// mostrar materiales con las etquetas
 
 exports.mostrarMaterialEtiquetas = async (req,res) => { 
     if(Token(req)){

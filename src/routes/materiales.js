@@ -3,7 +3,6 @@ const router = express.Router();
 const materialesController=require('../controller/materialesController')
 
 
-
 // api/materiales
 router.post('/',materialesController.crearMateriales)
 router.get('/',materialesController.mostrarMaterialEtiquetas)
