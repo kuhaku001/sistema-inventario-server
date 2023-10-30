@@ -17,7 +17,7 @@ const login = async (nombre, textoplano) => {
     const data = await crud.buscarUsuario(nombre)
     
     try {
-        if( await encryp.comparar(textoplano, data.contraseña)){
+        if( await encryp.comparar(textoplano, data.contraseña) && data.rol !== undefined  && data.rol == "administrador"){
             return [true, data]
         } else {
             return false
@@ -27,4 +27,19 @@ const login = async (nombre, textoplano) => {
     }
 }
 
-module.exports = {login, registro}
+const loginUsuario = async (nombre, textoplano) => {
+
+    const data = await crud.buscarUsuario(nombre)
+    
+    try {
+        if( await encryp.comparar(textoplano, data.contraseña) && data.rol !== undefined  && data.rol == "usuario"){
+            return [true, data]
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+}
+
+module.exports = {login, registro, loginUsuario}

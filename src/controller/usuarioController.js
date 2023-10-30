@@ -7,7 +7,8 @@ const crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
         sesiones: [{
             dispositivo: dispositivo,
             inico: true
-        }]
+        }],
+        rol : "usuario"
     })
     await user.save()
 

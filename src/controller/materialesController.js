@@ -157,9 +157,7 @@ exports.registrarEtiqueta = async (req,res) => {
       try {
         const{_id}=req.params;
         const etiquetas = req.body; 
-
         
-        console.log(etiquetas)
         const update = await materialesModels.updateOne(
             {_id},
             {$set : {"etiquetas" : etiquetas}

@@ -114,3 +114,31 @@ exports.eliminarProducto = async (req, res) => {
         res.status(400).send('Acceso denegado');
     }
 }
+
+exports.actualizarDisponibilidadProducto = async (req, res) => {
+    if(Token(req)){
+        try {
+
+            const {disponibilidad} = req.body;
+
+            let producto = await productoModels.findById(req.params.id);
+
+            if(!producto){
+                res.status(404).json({msg:'no existe el producto'})
+            }
+
+
+            producto = await productosModels.updateOne(
+                {_id},
+                {$set : {disponibilidad : disponibilidad}
+            })
+            
+            res.status(200).json(producto);
+            
+        } catch (error) {
+            res.status(500).send('Hubo un error');
+        }
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
+}

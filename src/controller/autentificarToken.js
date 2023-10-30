@@ -3,6 +3,9 @@ const jws = require('jsonwebtoken');
 require('dotenv').config();
 
 async function verificarToken(req) {
+
+    //TODO: Verificar y identificar que el token es usaurio o administrador segun el caso
+
     try {
         if(req.headers.authorization !== undefined){
             const token = req.headers.authorization.split(' ')[1]

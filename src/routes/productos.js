@@ -10,4 +10,6 @@ router.put('/:id',productosController.actualizarProducto)
 router.get('/:id',productosController.obtenerProductos)
 router.delete('/:id',productosController.eliminarProducto)
 
+router.put('disponibilidad/:id',productosController.actualizarDisponibilidadProducto)
+
 module.exports = router;
