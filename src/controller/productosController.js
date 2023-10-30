@@ -1,7 +1,7 @@
 const productoModel = require('../models/productosModels'); 
 const Token = require('./autentificarToken')
 
-const crearProducto = async (req, res) => {
+exports.crearProducto = async (req, res) => {
     if(Token(req)){
         try {
 
@@ -16,6 +16,5 @@ const crearProducto = async (req, res) => {
     } else {
         res.status(400).send('Acceso denegado');
     }
-};
+}
 
-module.exports = {crearProducto}

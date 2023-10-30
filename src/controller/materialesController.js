@@ -1,4 +1,3 @@
-const etiquetaModels = require("../models/etiquetaModels");
 const materialesModels = require("../models/materialesModels");
 const Token = require('./autentificarToken')
 

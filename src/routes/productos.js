@@ -4,6 +4,7 @@ const productosController=require('../controller/productosController')
 
 
 // api/productos
-router.post('/', productosController.crearProducto)
+router.post('/',productosController.crearProducto)
+router.get('/',productosController.crearProducto)
 
 module.exports = router;
