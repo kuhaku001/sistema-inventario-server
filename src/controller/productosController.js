@@ -142,3 +142,23 @@ exports.actualizarDisponibilidadProducto = async (req, res) => {
         res.status(400).send('Acceso denegado');
     }
 }
+
+// Consultas usuario
+
+exports.mostrarProductosUsuario = async (req, res) => {
+    if(Token(req)){
+        try {
+
+            const query = {disponibilidad: true}
+
+            const productos = await productosModels.find(query).sort({updatedAt: -1})
+
+            res.status(200).json(productos)
+            
+        } catch (error) {
+            res.status(500).send('Hubo un error');
+        }
+    } else {
+        res.status(400).send('Acceso denegado');
+    }
+}

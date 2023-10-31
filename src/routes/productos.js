@@ -12,4 +12,7 @@ router.delete('/:id',productosController.eliminarProducto)
 
 router.put('disponibilidad/:id',productosController.actualizarDisponibilidadProducto)
 
+
+router.get('/usuario', productosController.mostrarProductosUsuario)
+
 module.exports = router;
