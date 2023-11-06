@@ -5,7 +5,6 @@ exports.crearEtiqueta = async (req, res) => {
     if(Token(req)){
         try {
             
-            // Creamos nuestro material
             const etiqueta = etiquetaModels (req.body);
 
             await etiqueta.save();
@@ -44,7 +43,7 @@ exports.actualizarEtiqueta = async (req, res) => {
             let etiqueta = await etiquetaModels.findById(req.params.id);
 
             if(!etiqueta){
-                res.status(404).json({msg:'no existe el material'})
+                res.status(404).json({msg:'no existe la etiqueta'})
             }
             etiqueta.name = name
             etiqueta.color_etiqueta = color_etiqueta
@@ -70,11 +69,11 @@ exports.eliminarEtiqueta = async (req, res) => {
             let etiqueta = await etiquetaModels.findById(req.params.id);
 
             if(!etiqueta) {
-                res.status(404).json({ msg: 'No existe el producto' })
+                res.status(404).json({ msg: 'No existe la etiqueta' })
             }
 
             await etiquetaModels.findOneAndRemove({_id:req.params.id})
-            res.json('material eliminado con  exito');
+            res.json(' etiqueta eliminada con  exito');
             
         } catch (error) {
             console.log(error);
@@ -91,7 +90,7 @@ exports.obtenerEtiqueta = async (req, res) => {
             let etiqueta = await etiquetaModels.findById(req.params.id);
 
             if(!etiqueta) {
-                res.status(404).json({ msg: 'No existe el producto' })
+                res.status(404).json({ msg: 'No existe la etiqueta' })
             }
         
             res.json(etiqueta);

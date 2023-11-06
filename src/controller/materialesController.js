@@ -67,7 +67,7 @@ exports.obtenerMaterial = async (req, res) => {
     } else {
         res.status(400).send('Acceso denegado');
     }
-    } 
+} 
     
 
 
@@ -140,7 +140,9 @@ exports.mostrarMaterialEtiquetas = async (req,res) => {
                         descripcion: 1,
                         origen: 1,
                         estado: 1
-                }}]).sort({updatedAt: -1})
+                    }
+                }
+            ]).sort({updatedAt: -1})
             res.json(material)
         } catch (error) {
             console.log(error);

@@ -4,7 +4,7 @@ const Schema= mongoose.Schema;
 const clienteSchema = new Schema({
     nombre_cliente: {
         type: String,
-        required: false
+        required: true
     },
     telefono: {
         type: String,
@@ -12,7 +12,7 @@ const clienteSchema = new Schema({
     },
     medidas: {
         type: Object,
-        required: false,
+        required: true,
 
         c_cuello : {
             type: Float32Array,
@@ -23,6 +23,10 @@ const clienteSchema = new Schema({
             required: false
         },
         c_cintura : {
+            type: Float32Array,
+            required: false
+        },
+        c_cadera : {
             type: Float32Array,
             required: false
         },
@@ -50,7 +54,7 @@ const clienteSchema = new Schema({
             type: Float32Array,
             required: false
         },
-        alto_de_tipo : {
+        alto_de_tiro : {
             type: Float32Array,
             required: false
         },
@@ -66,11 +70,11 @@ const clienteSchema = new Schema({
             type: Float32Array,
             required: false
         },
-        puño : {
+        puno : {
             type: Float32Array,
             required: false
         },
-        muñeca : {
+        muneca : {
             type: Float32Array,
             required: false
         },
@@ -84,14 +88,6 @@ const clienteSchema = new Schema({
         },
         ancho_brazo : {
             type: Float32Array,
-            required: false
-        },
-        otras_medidas : {
-            type: String,
-            required: false
-        },
-        toma_medidas : {
-            type: Date,
             required: false
         }
     },
