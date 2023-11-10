@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const clienteController=require('../controller/clienteController')
 
-
-
 router.post('/',clienteController.crearCliente)
 router.get('/',clienteController.obtenerClientes)
 router.put('/:id',clienteController.actualizarCliente)

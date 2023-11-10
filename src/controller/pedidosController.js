@@ -5,13 +5,33 @@ const Token = require('./autentificarToken')
 exports.crearPedido = async (req, res) => { 
     if(Token(req)){
         try {
-            
-            // Creamos nuestro material
-            const pedido = pedidosModels(req.body);
+          
+            console.log(req.body[0])
+            console.log(req.body[1])
+
+            // Creamos nuestro pedido
+
+            req.body[0].codigo_pedido = 10002;
+
+            const pedido = pedidosModels(req.body[0]);
+
+            const id_cliente = req.body[1];
 
             await pedido.save();
-            res.send(pedido);
+
+            const cliente = await clienteModels.findOneAndUpdate(
+                {_id : id_cliente},
+                {
+                    $addToSet : {
+                        "pedidos" : pedido.codigo_pedido
+                    }
+                }
+            )
             
+            console.log(cliente)
+
+            res.send(pedido);
+        
         } catch (error) {
             console.log(error); 
             res.status(500).send('Hubo un error');
@@ -90,15 +110,29 @@ exports.obtenerPedido = async (req, res) => {
 
 exports.eliminarPedido = async (req, res) => {
     if(Token(req)){
-        try {
-            let pedido = await pedidosModels.findById(req.params.id);
+        try{
+            const pedido = await pedidosModels.findById(req.params.id);
+            const codigo = pedido.codigo_pedido
 
             if(!pedido) {
-                res.status(404).json({ msg: 'No existe el producto' })
+                res.status(404).json({ msg: 'No existe el pedido' })
             }
 
-            await pedidosModels.findOneAndRemove({_id:req.params.id})
-            res.json('material eliminado con  exito');
+            var cliente = await clienteModels.findOneAndUpdate(
+                {
+                    "pedidos" : pedido.codigo_pedido
+                },
+                {
+                    $pull : {"pedidos" : codigo}
+                }
+            )
+
+            await pedidosModels.deleteOne({_id:req.params.id})
+
+            res.status(200).json({
+                "id_cliente" : cliente._id,
+                "id_pedido": pedido._id
+            });
             
         } catch (error) {
             console.log(error);
@@ -108,38 +142,3 @@ exports.eliminarPedido = async (req, res) => {
         res.status(400).send('Acceso denegado');
     }
 }
-
-exports.agregarPedidoCliente = async (req ,res) => { 
-    if(Token(req)){
-        try {
-            
-            const nuevoPedido = pedidosModels(req.body);
-            const cliente= await clienteModels.findById(req.params.id);
-            nuevoPedido.codigo_pedido=cliente
-            await nuevoPedido.save();
-            cliente.pedidos.push(nuevoPedido)
-            await cliente.save();
-            res.send(nuevoPedido);
-            console.log(cliente)
-            
-            
-            //res.send(nuevoPedido);
-            
-        } catch (error) {
-            console.log(error); 
-            res.status(500).send('Hubo un error');
-            
-        }
-    } else {
-        res.status(400).send('Acceso denegado');
-    }
-};
-
-
-
-
-exports.MostrarDatosPedidos = async (req ,res) => {
-    //buscar  ususario  y  poblar  el  arreglo  de peididos  del  cliente
-    const cliente = await clienteModels.findById(req.params.id).populate('pedidos')
-    res.send(cliente)
- }

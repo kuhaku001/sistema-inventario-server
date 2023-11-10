@@ -157,7 +157,7 @@ exports.registrarEtiqueta = async (req,res) => {
     if(Token(req)){
 
       try {
-        const{_id}=req.params;
+        const _id = req.params;
         const etiquetas = req.body; 
         
         const update = await materialesModels.updateOne(
