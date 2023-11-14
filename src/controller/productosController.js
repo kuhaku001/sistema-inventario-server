@@ -6,7 +6,10 @@ exports.crearProducto = async (req, res) => {
     if(Token(req)){
         try {
 
+            console.log(req)
+
             const producto = productoModels(req.body);
+            producto.imagen = req.file.path;
 
             await producto.save();
             res.status(200).send(producto)
@@ -25,6 +28,7 @@ exports.mostrarProductos = async (req, res) => {
 
             const productos = await productosModels.aggregate({}).sort({updatedAt: -1})
 
+            console.log(productos)
             res.status(200).json(productos)
             
         } catch (error) {
@@ -45,7 +49,6 @@ exports.actualizarProducto = async (req, res) => {
                 disponibilidad,
                 descripcion,
                 imagen,
-                imagen_min
             } = req.body;
 
             let producto = await productoModels.findById(req.params.id);
@@ -60,7 +63,6 @@ exports.actualizarProducto = async (req, res) => {
             producto.disponibilidad=disponibilidad
             producto.descripcion=descripcion
             producto.imagen=imagen
-            producto.imagen_min=imagen_min
 
             producto = await productosModels.findOneAndUpdate({_id:req.params.id},producto,{new:true})
             

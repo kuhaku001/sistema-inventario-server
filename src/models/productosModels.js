@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const Schema= mongoose.Schema;
 
 const productoSchema = new Schema({
@@ -22,11 +23,11 @@ const productoSchema = new Schema({
         type : Array,
         required: false
     },
-    imagen : {
+    imagen : { // ruta
         type: String,
         required: false
     },
-    imagen_min : {
+    imagen_min : { // otra ruta
         type: String,
         required: false
     },

@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const clienteModels = require("../models/clienteModels");
 const pedidosModels = require("../models/pedidosModels");
 const Token = require('./autentificarToken')
@@ -11,7 +12,7 @@ exports.crearPedido = async (req, res) => {
 
             // Creamos nuestro pedido
 
-            req.body[0].codigo_pedido = 10002;
+            req.body[0].codigo_pedido = uuidv4();
 
             const pedido = pedidosModels(req.body[0]);
 
@@ -62,23 +63,32 @@ exports.obtenerPedidos = async (req, res) => {
 exports.actualizarPedido = async (req, res) => {
     if(Token(req)){
         try {
-            const { codigo_pedido,materiales,materiales_nombre,materiales_cantidad,pedido_descripcion,pedido_etiqueta } = req.body;
-            let pedido =await pedidosModels.findById(req.params.id);
+            const {
+                codigo_pedido,
+                pedido_detalles,
+                pedido_etiqueta,
+                pedido_precio,
+                abono,
+                completado
+            } = req.body;
+
+            let pedido = await pedidosModels.findById(req.params.id);
 
             if(!pedido){
                 res.status(404).json({msg:'no existe el material'})
             }
-            pedido.codigo_pedido=codigo_pedido
-            pedido.materiales=materiales
-            pedido.materiales_nombre=materiales_nombre
-            pedido.materiales_cantidad=materiales_cantidad
-            pedido.pedido_descripcion=pedido_descripcion
-            pedido.pedido_etiqueta=pedido_etiqueta
+            pedido.codigo_pedido = codigo_pedido
+            pedido.pedido_detalles = pedido_detalles
+            pedido.pedido_etiqueta = pedido_etiqueta
+            pedido.pedido_precio = pedido_precio
+            pedido.abono = abono
+            pedido.completado = completado
 
             pedido= await pedidosModels.findOneAndUpdate({_id:req.params.id},pedido,{new:true})
             res.json(pedido);
             
-            
+            console.log(pedido)
+
         } catch (error) {
             console.log(error);
             res.status(500).send('Hubo un error');

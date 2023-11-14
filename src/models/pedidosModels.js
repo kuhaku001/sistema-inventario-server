@@ -5,7 +5,7 @@ const Schema= mongoose.Schema;
 const pedidosSchema = new Schema({
 
     codigo_pedido:{
-        type:Number,
+        type:String,
         required: true
     },
 

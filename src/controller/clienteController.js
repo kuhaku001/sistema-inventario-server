@@ -68,7 +68,6 @@ exports.obtenerClientes = async (req, res) => {
     }
 }
 
-
 exports.actualizarCliente = async (req, res) => { 
     
     if(Token(req)){
