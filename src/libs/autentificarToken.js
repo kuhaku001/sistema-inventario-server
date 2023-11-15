@@ -1,10 +1,8 @@
-const  { buscarUsuarioID } = require('./usuarioController')
+const  { buscarUsuarioID, buscarUsuarioRol } = require('../controller/usuarioController')
 const jws = require('jsonwebtoken');
 require('dotenv').config();
 
-async function verificarToken(req) {
-
-    //TODO: Verificar y identificar que el token es usaurio o administrador segun el caso
+async function verificarToken(req, rol) {
 
     try {
         if(req.headers.authorization !== undefined){
@@ -15,7 +13,7 @@ async function verificarToken(req) {
                     const payload = jws.verify(token, process.env.JSON_WEB_TOKEN_KEY)
                     const userID = payload._id
 
-                    if(await buscarUsuarioID(userID)){
+                    if(await buscarUsuarioID(userID) && await buscarUsuarioRol(userID, rol)){
                         return true
                     } else {
                         return false

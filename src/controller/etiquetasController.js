@@ -1,8 +1,8 @@
 const etiquetaModels = require("../models/etiquetaModels");
-const Token = require('./autentificarToken')
+const Token = require('../libs/autentificarToken')
 
 exports.crearEtiqueta = async (req, res) => { 
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             
             const etiqueta = etiquetaModels (req.body);
@@ -20,7 +20,7 @@ exports.crearEtiqueta = async (req, res) => {
 }
 
 exports.obtenerEtiquetas = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             const etiqueta = await etiquetaModels.find()
 
@@ -37,7 +37,7 @@ exports.obtenerEtiquetas = async (req, res) => {
 }
 
 exports.actualizarEtiqueta = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             const { name,color_etiqueta } = req.body;
             let etiqueta = await etiquetaModels.findById(req.params.id);
@@ -64,7 +64,7 @@ exports.actualizarEtiqueta = async (req, res) => {
 
 
 exports.eliminarEtiqueta = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let etiqueta = await etiquetaModels.findById(req.params.id);
 
@@ -85,7 +85,7 @@ exports.eliminarEtiqueta = async (req, res) => {
 }
 
 exports.obtenerEtiqueta = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let etiqueta = await etiquetaModels.findById(req.params.id);
 

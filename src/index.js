@@ -20,8 +20,7 @@ app.use('/api/materiales', require('./routes/materiales'));
 app.use('/api/pedidos', require('./routes/pedidos'));
 app.use('/api/etiqueta', require('./routes/etiqueta'));
 app.use('/api/productos', require('./routes/productos'));
-
-app.use(require('./routes/autentificarUsuario'));
+app.use('/api/usuario', require('./routes/usuario'));
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Servidor esta funcionando")

@@ -1,9 +1,9 @@
 const materialesModels = require("../models/materialesModels");
-const Token = require('./autentificarToken')
+const Token = require('../libs/autentificarToken')
 
 
 exports.crearMateriales = async (req, res) => { 
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
                
             // Creamos nuestro material
@@ -21,7 +21,7 @@ exports.crearMateriales = async (req, res) => {
 }
 
 exports.actualizarMateriales = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             const { nombre,cantidad,precio,origen,descripcion } = req.body;
             let material =await materialesModels.findById(req.params.id);
@@ -50,7 +50,7 @@ exports.actualizarMateriales = async (req, res) => {
 
 
 exports.obtenerMaterial = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let material = await materialesModels.findById(req.params.id);
 
@@ -72,7 +72,7 @@ exports.obtenerMaterial = async (req, res) => {
 
 
 exports.eliminarMaterial = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let material = await materialesModels.findById(req.params.id);
 
@@ -96,7 +96,8 @@ exports.eliminarMaterial = async (req, res) => {
 // mostrar materiales con las etquetas
 
 exports.mostrarMaterialEtiquetas = async (req,res) => { 
-    if(Token(req)){
+
+    if(await Token(req, "administrador")){
         try {
 
             const material = await materialesModels.aggregate([
@@ -154,7 +155,7 @@ exports.mostrarMaterialEtiquetas = async (req,res) => {
 }
 
 exports.registrarEtiqueta = async (req,res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
 
       try {
         const _id = req.params;

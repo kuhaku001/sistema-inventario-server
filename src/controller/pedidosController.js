@@ -1,10 +1,10 @@
 const { v4: uuidv4 } = require('uuid');
 const clienteModels = require("../models/clienteModels");
 const pedidosModels = require("../models/pedidosModels");
-const Token = require('./autentificarToken')
+const Token = require('../libs/autentificarToken')
 
 exports.crearPedido = async (req, res) => { 
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
           
             console.log(req.body[0])
@@ -44,7 +44,7 @@ exports.crearPedido = async (req, res) => {
 
 
 exports.obtenerPedidos = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
 
             const pedido = await pedidosModels.find().limit(20);
@@ -61,7 +61,7 @@ exports.obtenerPedidos = async (req, res) => {
 
 
 exports.actualizarPedido = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             const {
                 codigo_pedido,
@@ -99,7 +99,7 @@ exports.actualizarPedido = async (req, res) => {
 }
 
 exports.obtenerPedido = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let pedido = await pedidosModels.findById(req.params.id);
 
@@ -119,7 +119,7 @@ exports.obtenerPedido = async (req, res) => {
 }
 
 exports.eliminarPedido = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try{
             const pedido = await pedidosModels.findById(req.params.id);
             const codigo = pedido.codigo_pedido

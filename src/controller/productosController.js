@@ -4,10 +4,10 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path')
 
 const productoModels = require('../models/productosModels'); 
-const Token = require('./autentificarToken')
+const Token = require('../libs/autentificarToken')
 
 exports.crearProducto = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             // procesar imagen
             const imagen =  req.file
@@ -47,7 +47,7 @@ exports.crearProducto = async (req, res) => {
 }
 
 exports.mostrarProductos = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
 
             const productos = await productoModels.aggregate({}).sort({updatedAt: -1})
@@ -64,7 +64,7 @@ exports.mostrarProductos = async (req, res) => {
 }
 
 exports.actualizarProducto = async (req, res) => {
-        if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
 
             const imagenSubmit = req.file
@@ -135,7 +135,7 @@ exports.actualizarProducto = async (req, res) => {
 }
 
 exports.obtenerProducto = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
 
             let producto = await productoModels.findById(req.params.id);
@@ -155,7 +155,7 @@ exports.obtenerProducto = async (req, res) => {
 }
 
 exports.eliminarProducto = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let producto = await productoModels.findById(req.params.id);
 
@@ -184,7 +184,7 @@ exports.eliminarProducto = async (req, res) => {
 }
 
 exports.actualizarDisponibilidadProducto = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
 
             const {disponibilidad} = req.body;
@@ -214,14 +214,18 @@ exports.actualizarDisponibilidadProducto = async (req, res) => {
 // Consultas usuario
 
 exports.mostrarProductosUsuario = async (req, res) => {
-    try {
+    if(await Token(req, "administrador")){
+        try {
 
-        const query = {disponibilidad: true}
+            const query = {disponibilidad: true}
 
-        const productos = await productoModels.find(query).sort({updatedAt: -1})
-        res.status(200).json(productos)
-        
-    } catch (error) {
-        res.status(500).send('Hubo un error');
+            const productos = await productoModels.find(query).sort({updatedAt: -1})
+            res.status(200).json(productos)
+            
+        } catch (error) {
+            res.status(500).send('Hubo un error');
+        }
+    } else {
+        res.status(400).send('Acceso denegado');
     }
 }

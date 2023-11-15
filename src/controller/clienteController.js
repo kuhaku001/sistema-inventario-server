@@ -1,11 +1,10 @@
 const clienteModels = require("../models/clienteModels");
-const Token = require('./autentificarToken')
+const Token = require('../libs/autentificarToken')
 const etiquetaModels = require("../models/etiquetaModels");
-const materialModels = require('../models/materialesModels')
 
 
 exports.crearCliente = async (req, res) => { 
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             
             const cliente = new clienteModels(req.body);
@@ -36,7 +35,7 @@ exports.crearCliente = async (req, res) => {
 
 
 exports.obtenerClientes = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
 
             const clientes = await clienteModels.aggregate([
@@ -70,7 +69,7 @@ exports.obtenerClientes = async (req, res) => {
 
 exports.actualizarCliente = async (req, res) => { 
     
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             const { 
                 nombre_cliente,
@@ -101,7 +100,7 @@ exports.actualizarCliente = async (req, res) => {
 
 
 exports.obtenerCliente = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let cliente = await clienteModels.findById(req.params.id);
 
@@ -121,7 +120,7 @@ exports.obtenerCliente = async (req, res) => {
 }
 
 exports.eliminarCliente = async (req, res) => {
-    if(Token(req)){
+    if(await Token(req, "administrador")){
         try {
             let cliente = await clienteModels.findById(req.params.id);
 

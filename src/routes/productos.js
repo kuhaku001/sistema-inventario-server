@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const productosController=require('../controller/productosController')
+const productosController = require('../controller/productosController')
 const uploads = require('../libs/multer')
 
 // api/productos
