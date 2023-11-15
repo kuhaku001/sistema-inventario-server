@@ -2,7 +2,7 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path')
 
-const Storage = multer.diskStorage(
+const Storage_1 = multer.diskStorage(
 
     {
         destination:  'uploads',
@@ -11,6 +11,8 @@ const Storage = multer.diskStorage(
         },
     }
 )
+
+const Storage = multer.memoryStorage()
 
 const uploads = multer({ storage: Storage })
 
