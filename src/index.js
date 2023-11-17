@@ -21,6 +21,8 @@ app.use('/api/pedidos', require('./routes/pedidos'));
 app.use('/api/etiqueta', require('./routes/etiqueta'));
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/usuario', require('./routes/usuario'));
+app.use('/api/cajas', require('./routes/caja'));
+app.use('/api/lista', require('./routes/listaCompras'));
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Servidor esta funcionando")
