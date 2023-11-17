@@ -1,80 +1,48 @@
-const userModel = require('../models/usuarioModels'); 
+const Token = require('../models/token')
+const Usuario = require('../models/usuario')
 
-const crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
-    const user = new userModel.usuario({
-        nombre: nombreUsuario,
-        contraseña: contraseña,
-        sesiones: [{
-            dispositivo: dispositivo,
-            inico: true
-        }],
-        rol : "usuario"
-    })
-    await user.save()
+exports.obtenerTokenAdmin  = async (req, res) => {
 
-}
+    console.log("holi9")
 
-const crearAdmin = async (nombreUsuario, contraseña, dispositivo) => {
-    const user = new userModel.usuario({
-        nombre: nombreUsuario,
-        contraseña: contraseña,
-        sesiones: [{
-            dispositivo: dispositivo,
-            inico: true
-        }],
-        rol : "administrador"
-    })
-    await user.save()
-
-}
-
-const buscarUsuario = async (nombreUsuario) => {
     try {
-        const user = await userModel.usuario.findOne({'nombre' : nombreUsuario})
-
-        const savedUsuario = await user.save();
-    
-        return await savedUsuario;
+        const autorizacion = await Token(req, "administrador");
+        res.status(200).json(autorizacion)
         
     } catch (error) {
-        return false // verificar
+        res.status(401).send('No tienes un token valido')
     }
+};
 
-}
+exports.obtenerTokenUsuario  =  async (req, res) => {
 
-const buscarUsuarioID = async (idUsuario) => {
     try {
-        const user = await userModel.usuario.findOne({'_id' : idUsuario})
+        const autorizacion = await Token(req, "usuario");
+        res.status(200).json(autorizacion)
 
-        if(user !== null && user !== undefined){
-            return true
-        } else{
-            return false
-        }
     } catch (error) {
-        return false // verificar
+        res.status(401).send('No tienes un token valido')
     }
+};
 
-}
 
-const buscarUsuarioRol = async (idUsuario, rolUsuario) => {
+exports.loginAdmin = async (req, res) => {
     try {
-        const user = await userModel.usuario.findOne({'_id' : idUsuario})
+        const Token = await Usuario.loginAdmin(req.body);
+        res.status(200).json(Token)
 
-        if(user.rol !== null && user.rol !== undefined && user.rol === rolUsuario){
-            return true
-        } else{
-            return false
-        }
     } catch (error) {
-        return false // verificar
+        console.log(error)
     }
+};
 
+exports.loginUsuario =  async (req, res) => {
+
+    try {
+        const Token = await Usuario.loginUsuario(req.body);
+        res.status(200).json(Token)
+
+    } catch (error) {
+        console.log(error)
+    }
 }
-
-
-const eliminarUsuario = async (nombreUsuario) => {
-    const user = await userModel.usuario.deleteOne({'nombre' : nombreUsuario})
-}
-
-module.exports = {crearUsuario, buscarUsuario, eliminarUsuario, buscarUsuarioID, buscarUsuarioRol };

@@ -1,11 +1,11 @@
-const etiquetaModels = require("../models/etiquetaModels");
-const Token = require('../libs/autentificarToken')
+const etiquetaModels = require("../database/etiquetaModel");
+const Token = require('../models/token')
 
 exports.crearEtiqueta = async (req, res) => { 
     if(await Token(req, "administrador")){
         try {
             
-            const etiqueta = etiquetaModels (req.body);
+            const etiqueta = etiquetaModels(req.body);
 
             await etiqueta.save();
             res.send(etiqueta);
@@ -22,7 +22,7 @@ exports.crearEtiqueta = async (req, res) => {
 exports.obtenerEtiquetas = async (req, res) => {
     if(await Token(req, "administrador")){
         try {
-            const etiqueta = await etiquetaModels.find()
+            const etiqueta = await etiquetaModels.find({tipo: ""})
 
             res.json(etiqueta)
             

@@ -1,4 +1,4 @@
-const mongoose = require('../database/mongooseConection');
+const mongoose = require('./mongooseConection');
 
 
 const usuario = mongoose.connection.model('usuario', {
@@ -8,7 +8,7 @@ const usuario = mongoose.connection.model('usuario', {
     rol: String
 });
 
-
+/*
 const caja = mongoose.connection.model('caja', {
     nombre : String,
     materiales : Array
@@ -25,7 +25,5 @@ const lista_de_compra = mongoose.connection.model('lista de compra', {
     fecha : Date,
     'lista de items' : Array
 })
-
-module.exports = {usuario,  caja,  informe_costos, lista_de_compra};
-
-
+*/
+module.exports = usuario // caja,  informe_costos, lista_de_compra};
