@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const MaterialesSchema = mongoose.Schema({
     nombre: {
         type: String,
-        required: false
+        required: true
     },
     cantidad: {
         type: Number,

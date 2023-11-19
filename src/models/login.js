@@ -3,10 +3,14 @@ const Usuario = require('./usuario');
 
 exports.loginAdmin = async (nombre, textoplano) => {
 
-    const data = await Usuario.buscarUsuario(nombre)
-    console.log(data)
+    const data = await Usuario.buscarUsuario(nombre, "administrador")
+    
+    if(!data){
+        return false
+    }
+
     try {
-        if( await encryp.comparar(textoplano, data.contraseña) && data.rol !== undefined  && data.rol == "administrador"){
+        if( await encryp.comparar(textoplano, data.contraseña) && data.rol !== undefined){
             return [true, data]
         } else {
             return false
@@ -18,10 +22,14 @@ exports.loginAdmin = async (nombre, textoplano) => {
 
 exports.loginUsuario = async (nombre, textoplano) => {
 
-    const data = await Usuario.buscarUsuario(nombre)
+    const data = await Usuario.buscarUsuario(nombre, "usuario")
     
+    if(!data){
+        return false
+    }
+
     try {
-        if( await encryp.comparar(textoplano, data.contraseña) && data.rol !== undefined  && data.rol == "usuario"){
+        if( await encryp.comparar(textoplano, data.contraseña) && data.rol !== undefined){
             return [true, data]
         } else {
             return false

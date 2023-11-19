@@ -31,13 +31,11 @@ exports.crearAdmin = async (nombreUsuario, contraseña, dispositivo) => {
 
 }
 
-exports.buscarUsuario = async (nombreUsuario) => {
+exports.buscarUsuario = async (nombreUsuario, rol) => {
     try {
-        const user = await Usuario.findOne({'nombre' : nombreUsuario})
-
-        const savedUsuario = await user.save();
+        const user = await Usuario.findOne({'nombre' : nombreUsuario, 'rol': rol})
     
-        return savedUsuario;
+        return user;
         
     } catch (error) {
         return false // verificar
