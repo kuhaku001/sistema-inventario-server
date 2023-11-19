@@ -14,7 +14,7 @@ const MaterialesSchema = mongoose.Schema({
         required: false
     },
     descripcion: {
-        type: Array,
+        type: String,
         required: false
     },
     origen:{
@@ -29,7 +29,9 @@ const MaterialesSchema = mongoose.Schema({
     },
 
     estado:{
-        type:Boolean
+        type:Boolean,
+        required: true, 
+        default: false,
     },
 
 },{

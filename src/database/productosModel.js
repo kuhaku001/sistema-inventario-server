@@ -20,7 +20,7 @@ const productoSchema = new Schema({
         required: false
     },
     descripcion : {
-        type : Array,
+        type : String,
         required: false
     },
     imagen : { // ruta

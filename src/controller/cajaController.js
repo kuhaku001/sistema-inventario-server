@@ -1,13 +1,9 @@
-const cajaModels = require("../models/cajaModels");
+const Caja = require("../models/cajas");
 
 exports.crearCajas = async (req, res) => { 
     
     try {
-           
-        // Creamos nuestra  caja
-        const caja = cajaModels (req.body);
-
-        await caja.save();
+        const caja = Caja.crearCaja(req, req.body);
         res.send(caja);
         
     } catch (error) {
@@ -21,19 +17,8 @@ exports.crearCajas = async (req, res) => {
 exports.actualizarCaja = async (req, res) => {
     
     try {
-        const { nombre,materiales} = req.body;
-        let caja =await cajaModels.findById(req.params.id);
-
-        if(!caja){
-            res.status(404).json({msg:'la  caja  no  existe'})
-        }
-        caja.nombre=nombre
-        caja.materiales=materiales
-        
-
-        caja= await cajaModels.findOneAndUpdate({_id:req.params.id},caja,{new:true})
+        const caja =await Caja.actualizarCajas(req, req.params.id, req.body);
         res.json(caja);
-        
         
     } catch (error) {
         console.log(error);
@@ -45,12 +30,7 @@ exports.actualizarCaja = async (req, res) => {
 exports.obtenerCaja = async (req, res) => {
    
     try {
-        let caja = await cajaModels.findById(req.params.id);
-
-        if(!caja) {
-            res.status(404).json({ msg: 'No existe la caja' })
-        }
-    
+        const caja = await Caja.obtenerCaja(req, req.params.id);
         res.json(caja);
         
     } catch (error) {
@@ -63,22 +43,23 @@ exports.obtenerCaja = async (req, res) => {
 exports.eliminarCaja = async (req, res) => {
     
     try {
-        let caja = await cajaModels.findById(req.params.id);
-
-        if(!caja) {
-            res.status(404).json({ msg: 'No existe la caja' })
-        }
-
-        await cajaModels.findOneAndRemove({_id:req.params.id})
-        res.json('caja eliminada con  exito');
+        const caja = await Caja.eliminarCaja(req, req.params.id);
+        res.json(caja);
         
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
-
-
 }
 
-
-
+exports.obtenerCajas = async (req, res) => {
+    
+    try {
+        const caja = await Caja.obtenerCajas(req);
+        res.json(caja);
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}

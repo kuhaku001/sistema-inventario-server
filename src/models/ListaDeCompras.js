@@ -4,7 +4,7 @@ const Token = require('./token')
 exports.crearLista = async (autorizacion, listaData) => { 
     if(await Token(autorizacion, "administrador")){
 
-        const lista = Material(listaData);
+        const lista = Lista(listaData);
     
         await lista.save();
 
