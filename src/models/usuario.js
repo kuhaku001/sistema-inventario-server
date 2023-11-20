@@ -1,12 +1,15 @@
 const jws = require('jsonwebtoken')
-
+const encryp = require('../libs/encrypt');
 const login = require('./login')
 const Usuario = require('../database/usuarioModel')
 
 exports.crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
+
+    const password = await encryp.encriptar(contraseña)
+
     const user = new Usuario({
         nombre: nombreUsuario,
-        contraseña: contraseña,
+        contraseña: password,
         sesiones: [{
             dispositivo: dispositivo,
             inico: true
@@ -18,9 +21,12 @@ exports.crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
 }
 
 exports.crearAdmin = async (nombreUsuario, contraseña, dispositivo) => {
+
+    const password = await encryp.encriptar(contraseña)
+
     const user = new Usuario({
         nombre: nombreUsuario,
-        contraseña: contraseña,
+        contraseña: password,
         sesiones: [{
             dispositivo: dispositivo,
             inico: true
