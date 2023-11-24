@@ -24,7 +24,7 @@ app.use('/api/usuario', require('./routes/usuario'));
 app.use('/api/cajas', require('./routes/caja'));
 app.use('/api/lista', require('./routes/listaCompras'));
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 443, () => {
     console.log("Servidor esta funcionando")
 })
 
