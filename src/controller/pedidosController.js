@@ -1,10 +1,15 @@
 const Pedidos = require('../models/pedidos')
+const Token = require('./models/token')
 
 exports.crearPedido = async (req, res) => { 
     try {
-        const pedido = await Pedidos.crearPedido(req, req.body)
-        res.send(pedido);
-        
+        if(await Token(req, "administrador")){
+ 
+            const pedido = await Pedidos.crearPedido(req.body)
+            res.send(pedido);
+        } else {
+            res.send('Acceso denegado')
+        }
     } catch (error) {
         console.log(error); 
         res.status(500).send('Hubo un error');
@@ -13,9 +18,13 @@ exports.crearPedido = async (req, res) => {
 
 exports.obtenerPedidos = async (req, res) => {
     try {
-        const pedidos = await Pedidos.obtenerPedidos(req);
-        res.json(pedidos)
-            
+        if(await Token(req, "administrador")){
+ 
+            const pedidos = await Pedidos.obtenerPedidos();
+            res.json(pedidos)
+        } else {
+            res.send('Acceso denegado')
+        }  
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -24,9 +33,19 @@ exports.obtenerPedidos = async (req, res) => {
 
 exports.actualizarPedido = async (req, res) => {
     try {
-        const pedido = await Pedidos.actualizarPedido(req, req.params.id, req.body);
-        res.json(pedido);
+        if(await Token(req, "administrador")){
+ 
+            const {fecha, anotacion} = res.body
 
+            if(fecha || anotacion){
+                //TODO: calce
+            }
+
+            const pedido = await Pedidos.actualizarPedido(req.params.id, req.body);
+            res.json(pedido);
+        } else {
+        res.send('Acceso denegado')
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -35,9 +54,13 @@ exports.actualizarPedido = async (req, res) => {
 
 exports.obtenerPedido = async (req, res) => {
     try {
-        const pedido = await Pedidos.obtenerPedido(req, req.params.id);
-        res.json(pedido);
-            
+        if(await Token(req, "administrador")){
+ 
+            const pedido = await Pedidos.obtenerPedido(req.params.id);
+            res.json(pedido);
+        } else {
+            res.send('Acceso denegado')
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -46,9 +69,13 @@ exports.obtenerPedido = async (req, res) => {
 
 exports.eliminarPedido = async (req, res) => {
     try{
-        const pedido = await Pedidos.eliminarPedido(req, req.params.id);
-        res.status(200).json(pedido);
-            
+        if(await Token(req, "administrador")){
+ 
+            const pedido = await Pedidos.eliminarPedido(req.params.id);
+            res.status(200).json(pedido);
+        } else {
+            res.send('Acceso denegado')
+        }  
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');

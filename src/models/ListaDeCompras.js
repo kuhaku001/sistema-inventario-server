@@ -1,85 +1,63 @@
 const Lista = require("../database/ListaCompraModels");
-const Token = require('./token')
 
-exports.crearLista = async (autorizacion, listaData) => { 
-    if(await Token(autorizacion, "administrador")){
+exports.crearLista = async (listaData) => { 
 
-        const lista = Lista(listaData);
+    const lista = Lista(listaData);
     
-        await lista.save();
+    await lista.save();
 
-        return lista
-    } else {
-        return 'Acceso denegado'
-    }
+    return lista
+
 }
 
-exports.actualizarListas = async (autorizacion, id, listaData) => {
-    if(await Token(autorizacion, "administrador")){
-
-        const {nombre_lista, ListaItems} = listaData;
+exports.actualizarListas = async (id, listaData) => {
+    const {nombre_lista, ListaItems} = listaData;
             
-        var lista = await Lista.findById(id);
+    var lista = await Lista.findById(id);
 
-        if(!lista){
-            return {msg:'no existe el material'};
-        }
-        lista.nombre_lista = nombre_lista
-        lista.ListaItems = ListaItems
-        
-
-        lista = await Lista.findOneAndUpdate({ _id:id }, lista, { new:true })
-        
-        return lista
-        
-    } else {
-        return 'Acceso denegado'
+    if(!lista){
+        return {msg:'no existe el material'};
     }
+    lista.nombre_lista = nombre_lista
+    lista.ListaItems = ListaItems
+        
+
+    lista = await Lista.findOneAndUpdate({ _id:id }, lista, { new:true })
+        
+    return lista
+        
 }
 
-exports.obtenerLista = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+exports.obtenerLista = async (id) => {
 
-        let lista = await Lista.findById(id);
+    let lista = await Lista.findById(id);
 
-        if(!lista) {
-           return { msg: 'No existe el material' }
-         }
-        
-        return lista
-
-    } else {
-        return 'Acceso denegado'
+    if(!lista) {
+        return { msg: 'No existe el material' }
     }
+        
+    return lista
+
 } 
 
-exports.eliminarLista = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+exports.eliminarLista = async (id) => {
 
-        let lista = await Lista.findById(id);
+    let lista = await Lista.findById(id);
 
-        if(!lista) {
-            return { msg: 'No existe el material' }
-        }
-
-        await Lista.findOneAndRemove({_id:id})
-
-        return('lista eliminada con  exito');  
-
-    } else {
-        return('Acceso denegado');
+    if(!lista) {
+        return { msg: 'No existe el material' }
     }
+
+    await Lista.findOneAndRemove({_id:id})
+
+    return('lista eliminada con  exito');  
     
 }
 
 
-exports.obtenerListas = async (autorizacion) => {
-    if(await Token(autorizacion, "administrador")){
+exports.obtenerListas = async () => {
 
-        const lista = await Lista.find()
-        return lista
+    const lista = await Lista.find()
+    return lista
 
-    } else {
-        return 'Acceso denegado'
-    }
 }

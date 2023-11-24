@@ -1,11 +1,15 @@
 const Listas = require("../models/ListaDeCompras");
+const Token = require('./models/token')
 
 exports.crearLista = async (req, res) => { 
     
     try {
-        const lista = Listas.crearLista(req, req.body);
-        res.send(lista);
-        
+        if(await Token(req, "administrador")){
+            const lista = Listas.crearLista(req.body);
+            res.send(lista);
+        } else {
+            return 'Acceso denegado'
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -16,9 +20,12 @@ exports.crearLista = async (req, res) => {
 exports.actualizarLista = async (req, res) => {
     
     try {
-        const lista = await Listas.actualizarLista(req, req.params.id, req.body);
-        res.json(lista);
-        
+        if(await Token(req, "administrador")){
+            const lista = await Listas.actualizarLista(req.params.id, req.body);
+            res.json(lista);
+        } else {
+            return 'Acceso denegado'
+        } 
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -29,9 +36,12 @@ exports.actualizarLista = async (req, res) => {
 exports.obtenerLista = async (req, res) => {
    
     try {
-        const lista = await Listas.obtenerLista(req, req.params.id);
-        res.json(lista);
-        
+        if(await Token(req, "administrador")){
+            const lista = await Listas.obtenerLista(req.params.id);
+            res.json(lista);
+        } else {
+            return 'Acceso denegado'
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -42,9 +52,12 @@ exports.obtenerLista = async (req, res) => {
 exports.eliminarLista = async (req, res) => {
     
     try {
-        const lista = await Listas.eliminarLista(req, req.params.id);
-        res.json(lista);
-        
+        if(await Token(req, "administrador")){
+            const lista = await Listas.eliminarLista(req.params.id);
+            res.json(lista);
+        } else {
+            return 'Acceso denegado'
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -52,11 +65,14 @@ exports.eliminarLista = async (req, res) => {
 }
 
 exports.obtenerListas = async (req, res) => {
-    
+
     try {
-        const lista = await Listas.obtenerListas(req);
-        res.json(lista);
-        
+        if(await Token(req, "administrador")){
+            const lista = await Listas.obtenerListas();
+            res.json(lista);
+        } else {
+            return 'Acceso denegado'
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');

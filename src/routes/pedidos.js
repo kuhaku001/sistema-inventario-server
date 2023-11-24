@@ -11,5 +11,4 @@ router.put('/:id',pedidosController.actualizarPedido)
 router.get('/:id',pedidosController.obtenerPedido)
 router.delete('/:id',pedidosController.eliminarPedido)
 
-
 module.exports = router;

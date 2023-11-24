@@ -1,116 +1,107 @@
-const Token = require('./token')
 const Cliente = require("../database/clienteModel");
 const Etiqueta = require("../database/etiquetaModel");
 
-exports.crearCliente = async (autorizacion, clienteData) => { 
-    if(await Token(autorizacion, "administrador")){
+exports.crearCliente = async (clienteData) => { 
 
-            const cliente = new Cliente(clienteData);
+    const cliente = new Cliente(clienteData);
 
-            const etiqueta = await new Etiqueta({
-                name: cliente.nombre_cliente,
-                color_etiqueta : "#000000",
-                tipo : "cliente"
-            });
-            await etiqueta.save();
+    if(!cliente.etiqueta_cliente){
+        const etiqueta = await new Etiqueta({
+            name: cliente.nombre_cliente,
+            color_etiqueta : "#000000",
+            tipo : "cliente"
+        });
 
-            cliente.etiqueta_cliente = await cliente.nombre_cliente
-            await cliente.save();
+        await etiqueta.save();
 
-            return cliente
-
+        cliente.etiqueta_cliente = await cliente.nombre_cliente
     } else {
-        return 'Acceso denegado'
+        const etiqueta = await new Etiqueta({
+            name: cliente.etiqueta_cliente,
+            color_etiqueta : "#000000",
+            tipo : "cliente"
+        });
+        await etiqueta.save();
     }
+
+    await cliente.save();
+
+    return cliente
+
 };
 
-exports.obtenerClientes = async (autorizacion) => {
-    if(await Token(autorizacion, "administrador")){
+exports.obtenerClientes = async () => {
 
-        const clientes = await Cliente.aggregate([
-            {
-                $lookup: {
-                    from: "pedidos",
-                    localField: "pedidos",
-                    foreignField: "codigo_pedido",
-                    as: "Pedidos"
-                }
-            },
-            {
-                $project: {
-                    pedidos : 0,
-                }
+    const clientes = await Cliente.aggregate([
+        {
+            $lookup: {
+                from: "pedidos",
+                localField: "pedidos",
+                foreignField: "codigo_pedido",
+                as: "Pedidos"
             }
-        ]).limit(20).sort({updatedAt: -1});
+        },
+        {
+            $project: {
+                pedidos : 0,
+            }
+        }
+    ]).limit(20).sort({updatedAt: -1});
 
-        return clientes
+    return clientes
 
-    } else {
-        return 'Acceso denegado'
-    }
 }
 
 
-exports.actualizarCliente = async (autorizacion, id, clienteData) => {
-    if(await Token(autorizacion, "administrador")){
-        const { 
-            nombre_cliente,
-            telefono,
-            medidas
-        } = clienteData;
+exports.actualizarCliente = async (id, clienteData) => {
+    const { 
+        nombre_cliente,
+        telefono,
+        medidas
+    } = clienteData;
 
-        var cliente = await clienteModels.findById(id);
+    var cliente = await clienteModels.findById(id);
 
-        if(!cliente){
-            return {msg:'no existe el cliente'}
-        }
+    if(!cliente){
+        return {msg:'no existe el cliente'}
+    }
 
-        cliente.nombre_cliente=nombre_cliente
-        cliente.telefono=telefono
-        cliente.medidas=medidas
+    cliente.nombre_cliente=nombre_cliente
+    cliente.telefono=telefono
+    cliente.medidas=medidas
 
-        cliente = await clienteModels.findOneAndUpdate({_id : id}, cliente, { new:true })
+    cliente = await clienteModels.findOneAndUpdate({_id : id}, cliente, { new:true })
         
-        return cliente
+    return cliente
 
-    } else {
-        return 'Acceso denegado'
-    }
 }
 
-exports.obtenerCliente = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+exports.obtenerCliente = async (id) => {
 
-        var cliente = await Cliente.findById(id);
+    var cliente = await Cliente.findById(id);
 
-        if(!cliente) {
-            return { msg: 'No existe el cliente' }
-        }
+    if(!cliente) {
+        return { msg: 'No existe el cliente' }
+    }
     
-        return cliente
+    return cliente
 
-    } else {
-        return 'Acceso denegado'
-    }
 }
 
-exports.eliminarCliente = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+exports.eliminarCliente = async (id) => {
 
-        var cliente = await Cliente.findById(id);
+    var cliente = await Cliente.findById(id);
 
-        if(!cliente) {
-            return { msg: 'No existe el cliente' }
-        }
-
-        await Etiqueta.findOneAndRemove({name: cliente.etiqueta_cliente})
-
-        await Cliente.findOneAndRemove({_id : id})
-
-        return 'cliente eliminado con  exito'
-        //TODO: eliminar la etiqueta relacionada a los materiales
-            
-    } else {
-        return 'Acceso denegado'
+    if(!cliente) {
+        return { msg: 'No existe el cliente' }
     }
+
+    await Etiqueta.findOneAndRemove({name: cliente.etiqueta_cliente})
+
+    await Cliente.findOneAndRemove({_id : id})
+
+    return 'cliente eliminado con  exito'
+    //TODO: eliminar la etiqueta relacionada a los materiales
+            
+
 }

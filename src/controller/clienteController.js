@@ -1,9 +1,15 @@
 const Cliente = require("../models/clientes");
+const Token = require('./models/token')
 
 exports.crearCliente = async (req, res) => { 
     try {
-        const cliente = await Cliente.crearCliente(req, req.body);
-        res.send(cliente);
+        if(await Token(req, "administrador")){
+            const cliente = await Cliente.crearCliente(req.body);
+            res.send(cliente);
+
+        } else {
+            return 'Acceso denegado'
+        }
             
     } catch (error) {
         console.log(error);
@@ -13,9 +19,13 @@ exports.crearCliente = async (req, res) => {
 
 exports.obtenerClientes = async (req, res) => {
     try {
-        const clientes = await Cliente.obtenerClientes(req);
-        res.json(clientes)
-            
+        if(await Token(req, "administrador")){
+            const clientes = await Cliente.obtenerClientes();
+            res.json(clientes)
+        
+        } else {
+            return 'Acceso denegado'
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -25,9 +35,12 @@ exports.obtenerClientes = async (req, res) => {
 
 exports.actualizarCliente = async (req, res) => { 
     try {   
-        const cliente = await Cliente.actualizarCliente(res, req.params.id, res.body);
-        res.json(cliente);
-            
+        if(await Token(req, "administrador")){
+            const cliente = await Cliente.actualizarCliente(req.params.id, res.body);
+            res.json(cliente);
+        } else {
+            return 'Acceso denegado'
+        }  
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -37,9 +50,12 @@ exports.actualizarCliente = async (req, res) => {
 
 exports.obtenerCliente = async (req, res) => {
     try {
-        const cliente = await Cliente.obtenerCliente(req, req.params.id);
-        res.json(cliente);
-            
+        if(await Token(req, "administrador")){
+            const cliente = await Cliente.obtenerCliente( req.params.id);
+            res.json(cliente);
+        } else {
+            return 'Acceso denegado'
+        }  
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -48,9 +64,12 @@ exports.obtenerCliente = async (req, res) => {
 
 exports.eliminarCliente = async (req, res) => {
     try {
-        const cliente = await Cliente.eliminarCliente(req, req.params.id);
-        res.json(cliente);
-            
+        if(await Token(req, "administrador")){
+            const cliente = await Cliente.eliminarCliente(req.params.id);
+            res.json(cliente);
+        } else {
+            return 'Acceso denegado'
+        }    
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');

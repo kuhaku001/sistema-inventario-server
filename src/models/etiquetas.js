@@ -1,80 +1,64 @@
-const Token = require('./token')
 const Etiquetas = require("../database/etiquetaModel");
 
-exports.crearEtiqueta = async (autorizacion, etiquetaData) => { 
-    if(await Token(autorizacion, "administrador")){
-            
-        const etiqueta = await Etiquetas(etiquetaData);
+exports.crearEtiqueta = async (etiquetaData) => { 
+  
+    const etiqueta = await Etiquetas(etiquetaData);
 
-        await etiqueta.save();
-        return etiqueta
+    await etiqueta.save();
+    return etiqueta
             
-    } else {
-        return 'Acceso denegado'
-    }
 }
 
-exports.obtenerEtiquetas = async (autorizacion) => {
-    if(await Token(autorizacion, "administrador")){
+exports.obtenerEtiquetas = async () => {
 
-        const etiqueta = await Etiquetas.find()
-        return etiqueta
+    const etiqueta = await Etiquetas.find()
+    return etiqueta
 
-    } else {
-        return 'Acceso denegado'
-    }
 }
 
-exports.actualizarEtiqueta = async (autorizacion, id, etiquetaData) => {
-    if(await Token(autorizacion, "administrador")){
-        try {
-            const { name,color_etiqueta } = etiquetaData;
-            let etiqueta = await Etiquetas.findById(id);
+exports.actualizarEtiqueta = async (id, etiquetaData) => {
 
-            if(!etiqueta){
-                return {msg:'no existe la etiqueta'}
-            }
-            etiqueta.name = name
-            etiqueta.color_etiqueta = color_etiqueta
-            etiqueta = await Etiquetas.findOneAndUpdate({_id : id},etiqueta,{new:true})
-            
-            return etiqueta;
-            
-        } catch (error) {
-            console.log(error);
-            return 'Hubo un error'
-        }
-    } else {
-        return 'Acceso denegado'
-    }
-}
-
-exports.eliminarEtiqueta = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+    try {
+        const { name,color_etiqueta } = etiquetaData;
         let etiqueta = await Etiquetas.findById(id);
 
-        if(!etiqueta) {
-            return { msg: 'No existe la etiqueta' }
+        if(!etiqueta){
+            return {msg:'no existe la etiqueta'}
         }
-        await Etiquetas.findOneAndRemove({_id:id})
-
-        return ' etiqueta eliminada con  exito'
+        etiqueta.name = name
+        etiqueta.color_etiqueta = color_etiqueta
+        etiqueta = await Etiquetas.findOneAndUpdate({_id : id},etiqueta,{new:true})
             
-    } else {
-        return 'Acceso denegado'
+        return etiqueta;
+            
+    } catch (error) {
+        console.log(error);
+        return 'Hubo un error'
     }
+
 }
 
-exports.obtenerEtiqueta = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
-        let etiqueta = await Etiquetas.findById(id);
+exports.eliminarEtiqueta = async (id) => {
 
-        if(!etiqueta) {
-            return { msg: 'No existe la etiqueta' }
-        }
+    let etiqueta = await Etiquetas.findById(id);
+
+    if(!etiqueta) {
+        return { msg: 'No existe la etiqueta' }
+    }
+    await Etiquetas.findOneAndRemove({_id:id})
+
+    return ' etiqueta eliminada con  exito'
+            
+}
+
+exports.obtenerEtiqueta = async (id) => {
+
+    let etiqueta = await Etiquetas.findById(id);
+
+    if(!etiqueta) {
+        return { msg: 'No existe la etiqueta' }
+    }
         
-        return etiqueta
-    } else {
-        return 'Acceso denegado'
-    }
+    return etiqueta
+
 } 

@@ -44,5 +44,3 @@ exports.loginUsuario =  async (req, res) => {
         console.log(error)
     }
 }
-
-// Usuario.crearAdmin("admin", "123456789qwer-", "pc-test")

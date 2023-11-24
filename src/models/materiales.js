@@ -1,82 +1,67 @@
 const Material = require("../database/materialesModel");
-const Token = require('./token')
 
-exports.crearMaterial = async (autorizacion, materialData) => { 
-    if(await Token(autorizacion, "administrador")){
+exports.crearMaterial = async (materialData) => { 
 
-        const material = Material(materialData);
+    const material = Material(materialData);
+
+    const materialNombre = await Material.findOne({nombre : material.nombre});
+
+    if(materialNombre){
+        return 'Ya existe el material'
+    }
     
-        await material.save();
+    await material.save();
 
-        return material
-    } else {
-        return 'Acceso denegado'
-    }
+    return material
+
 }
 
-exports.actualizarMateriales = async (autorizacion, id, materialData) => {
-    if(await Token(autorizacion, "administrador")){
+exports.actualizarMateriales = async (id, materialData) => {
 
-        const {nombre, cantidad, precio, origen, descripcion} = materialData;
+    const {nombre, cantidad, precio, origen, descripcion} = materialData;
             
-        var material = await Material.findById(id);
+    var material = await Material.findById(id);
 
-        if(!material){
-            return {msg:'no existe el material'};
-        }
-        material.nombre = nombre
-        material.cantidad = cantidad
-        material.precio = precio
-        material.origen = origen
-        material.descripcion = descripcion
-
-        material = await Material.findOneAndUpdate({ _id:id }, material, { new:true })
-        
-        return material
-        
-    } else {
-        return 'Acceso denegado'
+    if(!material){
+        return 'no existe el material'
     }
+    material.nombre = nombre
+    material.cantidad = cantidad
+    material.precio = precio
+    material.origen = origen
+    material.descripcion = descripcion
+
+    material = await Material.findOneAndUpdate({ _id:id }, material, { new:true })
+        
+    return material
+        
 }
 
-exports.obtenerMaterial = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+exports.obtenerMaterial = async (id) => {
 
-        let material = await Material.findById(id);
+    let material = await Material.findById(id);
 
-        if(!material) {
-           return { msg: 'No existe el material' }
-         }
-        
-        return material
-
-    } else {
-        return 'Acceso denegado'
+    if(!material) {
+        return 'No existe el material' 
     }
+    return material
 } 
 
-exports.eliminarMaterial = async (autorizacion, id) => {
-    if(await Token(autorizacion, "administrador")){
+exports.eliminarMaterial = async (id) => {
 
-        let material = await Material.findById(id);
+    let material = await Material.findById(id);
 
-        if(!material) {
-            return { msg: 'No existe el material' }
-        }
-
-        await Material.findOneAndRemove({_id:id})
-
-        return('material eliminado con  exito');  
-
-    } else {
-        return('Acceso denegado');
+    if(!material) {
+        return { msg: 'No existe el material' }
     }
+
+    await Material.findOneAndRemove({_id:id})
+
+    return { msg: 'material eliminado con  exito' };  
     
 }
 
-exports.mostrarMaterialEtiquetas = async (autorizacion) => { 
-
-    if(await Token(autorizacion, "administrador")){
+exports.mostrarMaterialEtiquetas = async () => { 
 
         const material = await Material.aggregate([
             {
@@ -124,14 +109,10 @@ exports.mostrarMaterialEtiquetas = async (autorizacion) => {
 
         return(material)
 
-    } else {
-        return('Acceso denegado');
-    }
 }
 
-exports.registrarEtiqueta = async (autorizacion, id, etiquetas) => {
-    if(await Token(autorizacion, "administrador")){
-        
+exports.registrarEtiqueta = async (id, etiquetas) => {
+
         const update = await Material.updateOne(
             {id},
             {$set : {"etiquetas" : etiquetas}
@@ -139,7 +120,5 @@ exports.registrarEtiqueta = async (autorizacion, id, etiquetas) => {
 
         return(update)
 
-    } else {
-        return('Acceso denegado');
-    }
+
 }
