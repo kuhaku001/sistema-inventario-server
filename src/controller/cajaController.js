@@ -1,5 +1,5 @@
 const Caja = require("../models/cajas");
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearCajas = async (req, res) => { 
 

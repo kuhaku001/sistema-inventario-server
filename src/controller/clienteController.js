@@ -1,5 +1,5 @@
 const Cliente = require("../models/clientes");
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearCliente = async (req, res) => { 
     try {

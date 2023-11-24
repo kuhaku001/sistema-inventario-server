@@ -1,5 +1,5 @@
 const Producto = require('../models/productos')
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearProducto = async (req, res) => {
     try {

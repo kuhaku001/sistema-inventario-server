@@ -1,5 +1,5 @@
 const Etiquetas = require('../models/etiquetas')
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearEtiqueta = async (req, res) => { 
     try {  

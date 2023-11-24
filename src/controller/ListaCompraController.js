@@ -1,5 +1,5 @@
 const Listas = require("../models/ListaDeCompras");
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearLista = async (req, res) => { 
     

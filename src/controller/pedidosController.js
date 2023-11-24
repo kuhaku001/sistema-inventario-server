@@ -1,5 +1,5 @@
 const Pedidos = require('../models/pedidos')
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearPedido = async (req, res) => { 
     try {

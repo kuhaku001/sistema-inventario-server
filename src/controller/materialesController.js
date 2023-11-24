@@ -1,5 +1,5 @@
 const Material = require("../models/materiales");
-const Token = require('./models/token')
+const Token = require('../models/token')
 
 exports.crearMateriales = async (req, res) => { 
     try {
