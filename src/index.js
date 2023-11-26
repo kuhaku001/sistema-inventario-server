@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // esta carpeta sera de uso publico (imagenes de los productos)
-app.use('../uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('../uploads', express.static(path.join(__dirname, 'sistema-inventario-server/uploads')));
 
 app.use('/api/cliente', require('./routes/cliente'));
 app.use('/api/materiales', require('./routes/materiales'));
