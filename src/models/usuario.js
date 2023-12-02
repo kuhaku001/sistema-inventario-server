@@ -99,9 +99,15 @@ exports.loginAdmin = async (adminData) => {
     console.log(jws.sign({_id : data[1]._id}, process.env.JSON_WEB_TOKEN_KEY))
 
     if( await data[0]){
-        const token = jws.sign({_id : data[1]._id}, process.env.JSON_WEB_TOKEN_KEY)
-        return {token:token}
-
+        const token = jws.sign(
+            {
+                _id : data[1]._id,
+                exp : Date.now()
+            }, 
+            process.env.JSON_WEB_TOKEN_KEY
+        ) 
+        return {token}
+        
     } else {
         return "Error de Login"
     };
@@ -115,7 +121,13 @@ exports.loginUsuario =  async (adminData) => {
 
     if( await data[0]){
 
-        const token = jws.sign({_id : data[1]._id}, process.env.JSON_WEB_TOKEN_KEY) 
+        const token = jws.sign(
+            {
+                _id : data[1]._id,
+                exp : Date.now()
+            }, 
+            process.env.JSON_WEB_TOKEN_KEY
+        ) 
         return {token}
 
     } else {
@@ -123,4 +135,3 @@ exports.loginUsuario =  async (adminData) => {
     };
 
 }
-

@@ -148,13 +148,9 @@ exports.eliminarProducto = async (id) => {
 
 }
 
-// Consultas usuario
+exports.mostrarProductosUsuario = async () => {
 
-exports.mostrarProductosUsuario = async (autorizacion) => {
-
-    const query = {disponibilidad: true}
-
-    const productos = await productoModels.find(query).sort({updatedAt: -1})
-    return productos
+    const productos = await Producto.find({disponibilidad : true}).sort({updatedAt: -1})
+    return productos   
 
 }

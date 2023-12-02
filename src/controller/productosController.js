@@ -71,17 +71,11 @@ exports.eliminarProducto = async (req, res) => {
     }
 }
 
-// Consultas usuario
-
 exports.mostrarProductosUsuario = async (req, res) => {
     try {
-        if(await Token(req, "administrador")){
- 
-            const productos = await Producto.mostrarProductos()
-            res.status(200).json(productos)
-        } else {
-            res.send('Acceso denegado')
-        } 
+        const productos = await Producto.mostrarProductosUsuario()
+        res.status(200).json(productos)
+
     } catch (error) {
         res.status(500).send('Hubo un error');
     }
