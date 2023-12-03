@@ -5,7 +5,7 @@ exports.crearEtiqueta = async (req, res) => {
     try {  
         if(await Token(req, "administrador")){
  
-            const etiqueta = Etiquetas.crearEtiqueta(req.body);
+            const etiqueta = await Etiquetas.crearEtiqueta(req.body);
             res.send(etiqueta);
         
         } else {

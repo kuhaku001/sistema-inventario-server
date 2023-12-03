@@ -5,6 +5,7 @@ exports.crearEtiqueta = async (etiquetaData) => {
     const etiqueta = await Etiquetas(etiquetaData);
 
     await etiqueta.save();
+
     return etiqueta
             
 }

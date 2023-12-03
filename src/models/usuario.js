@@ -3,20 +3,27 @@ const encryp = require('../libs/encrypt');
 const login = require('./login')
 const Usuario = require('../database/usuarioModel')
 
-exports.crearUsuario = async (nombreUsuario, contraseña, dispositivo) => {
+exports.crearUsuario = async (usuarioData) => {
 
-    const password = await encryp.encriptar(contraseña)
+    const {name, password} = usuarioData;
+
+    const usuarioNombre = await Usuario.findOne({nombre : name});
+
+    if( await usuarioNombre){
+        return 'Ya esta registrado ese nombre de usuario'
+    }
+
+    const contraseña = await encryp.encriptar(password)
 
     const user = new Usuario({
-        nombre: nombreUsuario,
-        contraseña: password,
-        sesiones: [{
-            dispositivo: dispositivo,
-            inico: true
-        }],
+        nombre: name,
+        contraseña: contraseña,
+        sesiones: [],
         rol : "usuario"
     })
     await user.save()
+
+    return 'Registrado'
 
 }
 
@@ -34,6 +41,8 @@ exports.crearAdmin = async (nombreUsuario, contraseña, dispositivo) => {
         rol : "administrador"
     })
     await user.save()
+
+    return 'Registrado Admin'
 
 }
 
@@ -115,10 +124,9 @@ exports.loginAdmin = async (adminData) => {
 
 exports.loginUsuario =  async (adminData) => {
 
-    const {name, password} = adminData.body;
-
-    const data = await Usuario.loginUsuario(name, password)
-
+    const {name, password} = adminData;
+    const data = await login.loginUsuario(name, password)
+    
     if( await data[0]){
 
         const token = jws.sign(

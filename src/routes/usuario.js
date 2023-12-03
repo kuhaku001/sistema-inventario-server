@@ -10,6 +10,6 @@ router.post('/tokenUser', usuarioController.obtenerTokenUsuario);
 
 router.post('/admin', usuarioController.loginAdmin)
 router.post('/', usuarioController.loginUsuario)
-
+router.post('/register', usuarioController.registerUsuario)
 
 module.exports = router
