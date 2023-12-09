@@ -8,6 +8,7 @@ const pedidosController=require('../controller/pedidosController')
 router.post('/',pedidosController.crearPedido)
 router.get('/',pedidosController.obtenerPedidos)
 router.put('/:id',pedidosController.actualizarPedido)
+router.put('/calce/:id',pedidosController.actualizarPedidoCalce)
 router.get('/:id',pedidosController.obtenerPedido)
 router.delete('/:id',pedidosController.eliminarPedido)
 

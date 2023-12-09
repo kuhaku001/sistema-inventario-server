@@ -18,8 +18,9 @@ exports.crearUsuario = async (usuarioData) => {
     const user = new Usuario({
         nombre: name,
         contraseña: contraseña,
-        sesiones: [],
-        rol : "usuario"
+        datos_entrega: {},
+        rol : "usuario",
+        pedidos: []
     })
     await user.save()
 
@@ -34,10 +35,7 @@ exports.crearAdmin = async (nombreUsuario, contraseña, dispositivo) => {
     const user = new Usuario({
         nombre: nombreUsuario,
         contraseña: password,
-        sesiones: [{
-            dispositivo: dispositivo,
-            inico: true
-        }],
+        datos_entrega: {},
         rol : "administrador"
     })
     await user.save()
@@ -139,7 +137,7 @@ exports.loginUsuario =  async (adminData) => {
         return {token}
 
     } else {
-        return "Error de Login "
+        return "Error de Login"
     };
 
 }

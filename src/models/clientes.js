@@ -43,10 +43,10 @@ exports.obtenerClientes = async () => {
         },
         {
             $project: {
-                pedidos : 0,
+                pedidos : 0
             }
         }
-    ]).limit(20).sort({updatedAt: -1});
+    ]).sort({updatedAt: -1});
 
     return clientes
 

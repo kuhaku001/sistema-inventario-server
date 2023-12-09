@@ -16,7 +16,7 @@ async function verificarToken(req, rol) {
                     const payload = jws.verify(token, process.env.JSON_WEB_TOKEN_KEY);
                     const userID = payload._id;
                     const time = Date.now() - payload.exp;
-
+                    
                     if(await buscarUsuarioID(userID) && await buscarUsuarioRol(userID, rol) && time <= 28800000){
                         return true
 

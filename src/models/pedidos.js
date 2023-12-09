@@ -19,7 +19,7 @@ exports.crearPedido = async (pedidoData) => {
         tipo : "pedido"
     });
 
-    const id_cliente = pedidoData[1];
+    const id_cliente = await pedidoData[1];
 
     await pedido.save();
     await etiqueta.save();
@@ -40,8 +40,7 @@ exports.crearPedido = async (pedidoData) => {
 
 exports.obtenerPedidos = async () => {
 
-    const pedido = await Pedido.find().limit(20);
-        
+    const pedido = await Pedido.find();
     return pedido
 
 }
@@ -74,6 +73,56 @@ exports.actualizarPedido = async (id, pedidoData) => {
     pedido = await Pedido.findOneAndUpdate({_id:id},pedido,{new:true})
             
     return pedido
+
+}
+
+exports.agregarPruebaCalce = async (id, pedidoData) => {
+
+    let pedido = await Pedido.findById(id);
+
+    if(!pedido){
+        return { msg: 'No existe el pedido' }
+    }
+
+    pedidoData.fecha = new Date(pedidoData.fecha)
+
+    pedido = await Pedido.findOneAndUpdate(
+        {
+            _id:id
+        },
+        {
+            $push: {
+                pruebas_calce : pedidoData
+            }
+        },{
+            new:true
+        }
+    )
+            
+    return pedido
+
+}
+
+exports.actualizarPedidoCalce = async (id, pedidoData) => {
+
+    let pedido = await Pedido.findById(id);
+
+    if(!pedido){
+        return { msg: 'No existe el pedido' }
+    }
+
+    pedido.pruebas_calce = pedidoData
+
+    console.log(pedido)
+
+    const pedidoCalce = await Pedido.replaceOne(
+        {
+            _id : id
+        },
+        pedido
+    )
+            
+    return pedidoCalce
 
 }
 

@@ -34,17 +34,38 @@ exports.obtenerPedidos = async (req, res) => {
 exports.actualizarPedido = async (req, res) => {
     try {
         if(await Token(req, "administrador")){
- 
-            const {fecha, anotacion} = res.body
+
+            const {fecha, anotacion} = req.body
+
+            let pedido;
 
             if(fecha || anotacion){
-                //TODO: calce
+                pedido = await Pedidos.agregarPruebaCalce(req.params.id, req.body)
+            } else {
+                pedido = await Pedidos.actualizarPedido(req.params.id, req.body);
             }
-
-            const pedido = await Pedidos.actualizarPedido(req.params.id, req.body);
+ 
             res.json(pedido);
+
         } else {
-        res.send('Acceso denegado')
+            res.send('Acceso denegado')
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+exports.actualizarPedidoCalce = async (req, res) => {
+    try {
+        if(await Token(req, "administrador")){
+
+            const pedidoCalce = await Pedidos.actualizarPedidoCalce(req.params.id, req.body)
+ 
+            res.json(pedidoCalce);
+
+        } else {
+            res.send('Acceso denegado')
         }
     } catch (error) {
         console.log(error);

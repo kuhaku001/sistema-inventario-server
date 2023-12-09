@@ -1,3 +1,50 @@
-# SistemaInventario
+# Sistema Inventario
 
-test de push github
+```
+└── 📁sistema-inventario-server
+    └── .env
+    └── 📁.vscode
+        └── settings.json
+    └── package-lock.json
+    └── package.json
+    └── README.md
+    └── 📁src
+        └── 📁controller
+            └── cajaController.js
+            └── clienteController.js
+            └── etiquetasController.js
+            └── ListaCompraController.js
+            └── materialesController.js
+            └── pedidosController.js
+            └── productosController.js
+            └── usuarioController.js
+        └── 📁database
+            └── cajaModels.js
+            └── clienteModel.js
+            └── etiquetaModel.js
+            └── ListaCompraModels.js
+            └── materialesModel.js
+            └── mongooseConection.js
+            └── pedidosModel.js
+            └── productosModel.js
+            └── usuarioModel.js
+        └── index.js
+        └── 📁libs
+            └── encrypt.js
+            └── multer.js
+        └── 📁models
+            └── cajas.js
+            └── clientes.js
+            └── etiquetas.js
+            └── ListaDeCompras.js
+            └── login.js
+            └── materiales.js
+            └── pedidos.js
+            └── productos.js
+            └── token.js
+            └── usuario.js
+    └── 📁test
+        └── test.js
+    └── 📁uploads
+    └── certificate-mongo.pem
+```

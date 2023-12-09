@@ -3,6 +3,7 @@ const conectionDB = require('./database/mongooseConection');
 const morgan = require('morgan')
 const cors = require('cors')
 const path = require('path')
+require('dotenv').config();
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/productos', require('./routes/productos'));
 app.use('/api/usuario', require('./routes/usuario'));
 app.use('/api/cajas', require('./routes/caja'));
 app.use('/api/lista', require('./routes/listaCompras'));
+app.use('/api/reserva', require('./routes/reservas'));
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Servidor esta funcionando")
