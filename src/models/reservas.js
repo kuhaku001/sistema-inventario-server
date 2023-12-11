@@ -38,3 +38,8 @@ exports.crearReserva = async (id_usuario, reservaData) => {
 
     return reserva;
 }
+
+exports.verReservas = async () => {
+    const reserva = await Reserva.find()
+    return reserva;
+}
