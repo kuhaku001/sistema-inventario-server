@@ -43,20 +43,6 @@ exports.actualizarProducto = async (req, res) => {
     }
 }
 
-exports.obtenerProducto = async (req, res) => {
-    try {
-        if(await Token(req, "administrador")){
- 
-            const producto = await Producto.obtenerProducto(req.params.id);
-            res.status(200).json(producto)
-        } else {
-            res.send('Acceso denegado')
-        }
-    } catch (error) {
-        res.status(500).send('Hubo un error');
-    }
-}
-
 exports.eliminarProducto = async (req, res) => {
     try {
         if(await Token(req, "administrador")){
@@ -71,10 +57,22 @@ exports.eliminarProducto = async (req, res) => {
     }
 }
 
+// usuario
+
 exports.mostrarProductosUsuario = async (req, res) => {
     try {
         const productos = await Producto.mostrarProductosUsuario()
         res.status(200).json(productos)
+
+    } catch (error) {
+        res.status(500).send('Hubo un error');
+    }
+}
+
+exports.obtenerProducto = async (req, res) => {
+    try {
+        const producto = await Producto.obtenerProducto(req.params.id);
+        res.status(200).json(producto)
 
     } catch (error) {
         res.status(500).send('Hubo un error');

@@ -8,9 +8,8 @@ router.get('/', productosController.obtenerProductos)
 router.get('/usuario', productosController.mostrarProductosUsuario)
 router.get('/usuario/:id', productosController.obtenerProducto)
 
-router.post('/', uploads.single('imagen'), productosController.crearProducto)
-router.put('/:id', uploads.single('imagen'), productosController.actualizarProducto)
-router.get('/:id', productosController.obtenerProducto)
-router.delete('/:id', productosController.eliminarProducto)
+router.post('/', uploads.single('imagen'), productosController.crearProducto) // subir imagen
+router.put('/:id', uploads.single('imagen'), productosController.actualizarProducto) // modificar imagen
+router.delete('/:id', productosController.eliminarProducto) // eliminar producto
 
 module.exports = router;

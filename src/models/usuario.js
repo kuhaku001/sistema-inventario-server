@@ -28,7 +28,7 @@ exports.crearUsuario = async (usuarioData) => {
 
 }
 
-exports.crearAdmin = async (nombreUsuario, contraseña, dispositivo) => {
+exports.crearAdmin = async (nombreUsuario, contraseña) => {
 
     const password = await encryp.encriptar(contraseña)
 
